@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		83A22D8D1D7FAABE00FE1E4A /* LJPictureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D8C1D7FAABE00FE1E4A /* LJPictureView.m */; };
-		83A22D901D7FABAC00FE1E4A /* LJPictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D8F1D7FABAC00FE1E4A /* LJPictureCell.m */; };
+		83A22D981D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D931D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m */; };
+		83A22D991D7FECC000FE1E4A /* LJPictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D951D7FECC000FE1E4A /* LJPictureCell.m */; };
+		83A22D9A1D7FECC000FE1E4A /* LJPictureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D971D7FECC000FE1E4A /* LJPictureView.m */; };
 		83BC12A71D7EAF4A0084F8AA /* LJTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC12A61D7EAF4A0084F8AA /* LJTestController.m */; };
-		83BC12AA1D7EBCB30084F8AA /* LJCollectionViewMovedFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC12A91D7EBCB30084F8AA /* LJCollectionViewMovedFlowLayout.m */; };
 		83F7AADF1D7D7385005D007D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7AADE1D7D7385005D007D /* main.m */; };
 		83F7AAE21D7D7385005D007D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7AAE11D7D7385005D007D /* AppDelegate.m */; };
 		83F7AAE81D7D7385005D007D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83F7AAE61D7D7385005D007D /* Main.storyboard */; };
@@ -19,14 +19,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		83A22D8B1D7FAABE00FE1E4A /* LJPictureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJPictureView.h; sourceTree = "<group>"; };
-		83A22D8C1D7FAABE00FE1E4A /* LJPictureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJPictureView.m; sourceTree = "<group>"; };
-		83A22D8E1D7FABAC00FE1E4A /* LJPictureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJPictureCell.h; sourceTree = "<group>"; };
-		83A22D8F1D7FABAC00FE1E4A /* LJPictureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJPictureCell.m; sourceTree = "<group>"; };
+		83A22D921D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJCollectionViewMovedFlowLayout.h; sourceTree = "<group>"; };
+		83A22D931D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJCollectionViewMovedFlowLayout.m; sourceTree = "<group>"; };
+		83A22D941D7FECC000FE1E4A /* LJPictureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJPictureCell.h; sourceTree = "<group>"; };
+		83A22D951D7FECC000FE1E4A /* LJPictureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJPictureCell.m; sourceTree = "<group>"; };
+		83A22D961D7FECC000FE1E4A /* LJPictureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJPictureView.h; sourceTree = "<group>"; };
+		83A22D971D7FECC000FE1E4A /* LJPictureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJPictureView.m; sourceTree = "<group>"; };
 		83BC12A51D7EAF4A0084F8AA /* LJTestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJTestController.h; sourceTree = "<group>"; };
 		83BC12A61D7EAF4A0084F8AA /* LJTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJTestController.m; sourceTree = "<group>"; };
-		83BC12A81D7EBCB30084F8AA /* LJCollectionViewMovedFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJCollectionViewMovedFlowLayout.h; sourceTree = "<group>"; };
-		83BC12A91D7EBCB30084F8AA /* LJCollectionViewMovedFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJCollectionViewMovedFlowLayout.m; sourceTree = "<group>"; };
 		83F7AADA1D7D7385005D007D /* LJCollectionViewMove.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LJCollectionViewMove.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83F7AADE1D7D7385005D007D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		83F7AAE01D7D7385005D007D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -48,6 +48,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		83A22D911D7FECC000FE1E4A /* LJPictureView */ = {
+			isa = PBXGroup;
+			children = (
+				83A22D921D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.h */,
+				83A22D931D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m */,
+				83A22D941D7FECC000FE1E4A /* LJPictureCell.h */,
+				83A22D951D7FECC000FE1E4A /* LJPictureCell.m */,
+				83A22D961D7FECC000FE1E4A /* LJPictureView.h */,
+				83A22D971D7FECC000FE1E4A /* LJPictureView.m */,
+			);
+			path = LJPictureView;
+			sourceTree = "<group>";
+		};
 		83F7AAD11D7D7385005D007D = {
 			isa = PBXGroup;
 			children = (
@@ -67,16 +80,11 @@
 		83F7AADC1D7D7385005D007D /* LJCollectionViewMove */ = {
 			isa = PBXGroup;
 			children = (
+				83A22D911D7FECC000FE1E4A /* LJPictureView */,
 				83F7AAE01D7D7385005D007D /* AppDelegate.h */,
 				83F7AAE11D7D7385005D007D /* AppDelegate.m */,
 				83BC12A51D7EAF4A0084F8AA /* LJTestController.h */,
 				83BC12A61D7EAF4A0084F8AA /* LJTestController.m */,
-				83A22D8B1D7FAABE00FE1E4A /* LJPictureView.h */,
-				83A22D8C1D7FAABE00FE1E4A /* LJPictureView.m */,
-				83A22D8E1D7FABAC00FE1E4A /* LJPictureCell.h */,
-				83A22D8F1D7FABAC00FE1E4A /* LJPictureCell.m */,
-				83BC12A81D7EBCB30084F8AA /* LJCollectionViewMovedFlowLayout.h */,
-				83BC12A91D7EBCB30084F8AA /* LJCollectionViewMovedFlowLayout.m */,
 				83F7AAE61D7D7385005D007D /* Main.storyboard */,
 				83F7AAE91D7D7385005D007D /* Assets.xcassets */,
 				83F7AAEB1D7D7385005D007D /* LaunchScreen.storyboard */,
@@ -166,10 +174,10 @@
 			files = (
 				83BC12A71D7EAF4A0084F8AA /* LJTestController.m in Sources */,
 				83F7AAE21D7D7385005D007D /* AppDelegate.m in Sources */,
-				83A22D901D7FABAC00FE1E4A /* LJPictureCell.m in Sources */,
-				83A22D8D1D7FAABE00FE1E4A /* LJPictureView.m in Sources */,
-				83BC12AA1D7EBCB30084F8AA /* LJCollectionViewMovedFlowLayout.m in Sources */,
+				83A22D981D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m in Sources */,
+				83A22D9A1D7FECC000FE1E4A /* LJPictureView.m in Sources */,
 				83F7AADF1D7D7385005D007D /* main.m in Sources */,
+				83A22D991D7FECC000FE1E4A /* LJPictureCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
