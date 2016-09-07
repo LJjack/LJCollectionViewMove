@@ -16,8 +16,6 @@ static NSString * const addPictureName = @"icon-addpicture";
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
-@property (nonatomic, strong) UILongPressGestureRecognizer *longPress;
-
 @property (nonatomic, strong) NSMutableArray<NSString *> *dataList;
 
 @end
@@ -87,15 +85,15 @@ static NSString * const addPictureName = @"icon-addpicture";
     [self.dataList exchangeObjectAtIndex:fromIndexPath.item withObjectAtIndex:toIndexPath.item];
 }
 
-- (void)lonePressMoving:(UIGestureRecognizer *)longPress {
+- (void)handleLongPresGestureRecognizer:(UIGestureRecognizer *)gesture {
     
-    switch (longPress.state) {
+    switch (gesture.state) {
         case UIGestureRecognizerStateBegan: {
-            NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:[longPress locationInView:longPress.view]];
+            NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:[gesture locationInView:gesture.view]];
             [self.collectionView lj_beginInteractiveMovementForItemAtIndexPath:indexPath];
         } break;
         case UIGestureRecognizerStateChanged: {
-            [self.collectionView lj_updateInteractiveMovementTargetPosition:[longPress locationInView:longPress.view]];
+            [self.collectionView lj_updateInteractiveMovementTargetPosition:[gesture locationInView:gesture.view]];
         } break;
         case UIGestureRecognizerStateEnded: {
             [self.collectionView lj_endInteractiveMovement];
@@ -148,6 +146,13 @@ static NSString * const addPictureName = @"icon-addpicture";
         [self.dataList addObject:addPictureName];
     }
     [self.collectionView reloadData];
+    __weak typeof(self) weakSelf = self;
+    [self.collectionView performBatchUpdates:nil completion:^(BOOL finished) {
+        CGRect frame = weakSelf.frame;
+        frame.size.height = weakSelf.collectionView.contentSize.height;
+        weakSelf.frame = frame;
+    }];
+    
 }
 
 #pragma mark - Getters
@@ -161,15 +166,15 @@ static NSString * const addPictureName = @"icon-addpicture";
         
         _collectionView.backgroundColor = [UIColor colorWithRed:0.8568 green:0.8568 blue:0.8568 alpha:1.0];
         [_collectionView registerClass:[LJPictureCell class] forCellWithReuseIdentifier:@"ViewController_cell"];
-        _longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(lonePressMoving:)];
+        UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPresGestureRecognizer:)];
         // 兼容系统手势
-//        for (UIGestureRecognizer *gestureRecognizer in _collectionView.gestureRecognizers) {
-//            if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
-//                [gestureRecognizer requireGestureRecognizerToFail:_longPress];
-//            }
-//        }
+        for (UIGestureRecognizer *gestureRecognizer in _collectionView.gestureRecognizers) {
+            if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
+                [gestureRecognizer requireGestureRecognizerToFail:longPressGestureRecognizer];
+            }
+        }
         
-        [_collectionView addGestureRecognizer:_longPress];
+        [_collectionView addGestureRecognizer:longPressGestureRecognizer];
     }
     return _collectionView;
 }

@@ -22,7 +22,7 @@
     [super viewDidLoad];
     self.dataList = @[@"WechatIMG1", @"WechatIMG2", @"WechatIMG3",
                    @"WechatIMG4"].mutableCopy;
-    CGRect frame = CGRectMake(12, 40, self.view.bounds.size.width - 12*2., 400);
+    CGRect frame = CGRectMake(12, 40, self.view.bounds.size.width - 12*2., 200);
     
     
     [self.view addSubview:self.pictureView];
@@ -44,7 +44,7 @@
 - (LJPictureView *)pictureView {
     if (!_pictureView) {
         _pictureView = [[LJPictureView alloc] init];
-        _pictureView.maxPictureNum = 6;
+        
         _pictureView.delegate = self;
     }
     return _pictureView;
