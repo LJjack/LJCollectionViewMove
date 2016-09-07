@@ -25,11 +25,6 @@
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-}
-
 - (void)setImageName:(NSString *)imageName {
     _imageName = imageName;
     self.imageView.image = [UIImage imageNamed:imageName];
