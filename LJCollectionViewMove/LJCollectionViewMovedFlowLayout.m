@@ -91,9 +91,7 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
 @implementation UICollectionView (LJReordering)
 
 - (BOOL)lj_beginInteractiveMovementForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     self.selectedItemIndexPath = indexPath;
-    
     if ([[self lj_dataSource] respondsToSelector:@selector(collectionView:canMoveItemAtIndexPath:)] &&
         ![[self lj_dataSource] collectionView:self canMoveItemAtIndexPath:indexPath]) {
         return NO;
@@ -111,10 +109,9 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
 }
 - (void)lj_updateInteractiveMovementTargetPosition:(CGPoint)targetPosition {
     self.currentView.center = targetPosition;
-    
     CGSize cellMovedSize = LJ_CGSizeScale(self.currentView.bounds.size, 0.3);
     
-    [self invalidateLayoutIfNecessary];
+    [self updateLayoutMovementTargetPosition:targetPosition];
     switch ([self lj_collectionViewLayout].scrollDirection) {
         case UICollectionViewScrollDirectionVertical: {
             if (targetPosition.y - cellMovedSize.height < CGRectGetMinY(self.bounds)) {
@@ -146,6 +143,41 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
 }
 
 #pragma mark - Private Methods
+
+- (void)updateLayoutMovementTargetPosition:(CGPoint)targetPosition {
+    NSIndexPath *previousIndexPath = self.selectedItemIndexPath;
+    NSIndexPath *newIndexPath = [self indexPathForItemAtPoint:targetPosition];
+    if ((newIndexPath == nil) || newIndexPath == previousIndexPath) {
+        return;
+    }
+    if ([[self lj_dataSource] respondsToSelector:@selector(collectionView:canMoveItemAtIndexPath:toIndexPath:)] &&
+        ![[self lj_dataSource] collectionView:self canMoveItemAtIndexPath:previousIndexPath toIndexPath:newIndexPath]) {
+        return;
+    }
+    if ([[self lj_dataSource] respondsToSelector:@selector(collectionView:canMoveItemAtIndexPath:)] &&
+        ![[self lj_dataSource] collectionView:self canMoveItemAtIndexPath:previousIndexPath]) {
+        return;
+    }
+    
+    self.selectedItemIndexPath = newIndexPath;
+    if ([[self lj_dataSource] respondsToSelector:@selector(collectionView:willMoveItemAtIndexPath:toIndexPath:)]) {
+        [[self lj_dataSource] collectionView:self willMoveItemAtIndexPath:previousIndexPath toIndexPath:newIndexPath];
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    [self performBatchUpdates:^{
+        __strong typeof(self) strongSelf = weakSelf;
+        if (strongSelf) {
+            [strongSelf deleteItemsAtIndexPaths:@[previousIndexPath]];
+            [strongSelf insertItemsAtIndexPaths:@[newIndexPath]];
+        }
+    } completion:^(BOOL finished) {
+        __strong typeof(self) strongSelf = weakSelf;
+        if ([[strongSelf lj_dataSource] respondsToSelector:@selector(collectionView:didMoveItemAtIndexPath:toIndexPath:)]) {
+            [[strongSelf lj_dataSource] collectionView:strongSelf didMoveItemAtIndexPath:previousIndexPath toIndexPath:newIndexPath];
+        }
+    }];
+}
 
 //设置当滚出屏幕时，移动屏幕
 - (void)setupScrollBeyondScreenInDirection:(LJScrollingDirection)direction {
@@ -188,43 +220,6 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
     self.contentOffset = LJ_CGPointAdd(contentOffset, translation);
 }
 
-
-- (void)invalidateLayoutIfNecessary {
-    NSIndexPath *previousIndexPath = self.selectedItemIndexPath;
-    NSIndexPath *newIndexPath = [self indexPathForItemAtPoint:self.currentView.center];
-    if ((newIndexPath == nil) || newIndexPath == previousIndexPath) {
-        return;
-    }
-    if ([[self lj_dataSource] respondsToSelector:@selector(collectionView:canMoveItemAtIndexPath:)] &&
-        ![[self lj_dataSource] collectionView:self canMoveItemAtIndexPath:newIndexPath]) {
-        return;
-    }
-    if ([[self lj_dataSource] respondsToSelector:@selector(collectionView:canMoveItemAtIndexPath:toIndexPath:)] &&
-        ![[self lj_dataSource] collectionView:self canMoveItemAtIndexPath:previousIndexPath toIndexPath:newIndexPath]) {
-        return;
-    }
-    
-    self.selectedItemIndexPath = newIndexPath;
-    
-    if ([[self lj_dataSource] respondsToSelector:@selector(collectionView:willMoveItemAtIndexPath:toIndexPath:)]) {
-        [[self lj_dataSource] collectionView:self willMoveItemAtIndexPath:previousIndexPath toIndexPath:newIndexPath];
-    }
-    
-    __weak typeof(self) weakSelf = self;
-    [self performBatchUpdates:^{
-        __strong typeof(self) strongSelf = weakSelf;
-        if (strongSelf) {
-            [strongSelf deleteItemsAtIndexPaths:@[previousIndexPath]];
-            [strongSelf insertItemsAtIndexPaths:@[newIndexPath]];
-        }
-    } completion:^(BOOL finished) {
-        __strong typeof(self) strongSelf = weakSelf;
-        if ([[strongSelf lj_dataSource] respondsToSelector:@selector(collectionView:didMoveItemAtIndexPath:toIndexPath:)]) {
-            [[strongSelf lj_dataSource] collectionView:strongSelf didMoveItemAtIndexPath:previousIndexPath toIndexPath:newIndexPath];
-        }
-    }];
-}
-
 #pragma mark - Getters And Setters
 
 - (id<LJCollectionViewMovedFlowLayoutDataSource>)lj_dataSource {
@@ -242,7 +237,7 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
 - (void)setSelectedItemIndexPath:(NSIndexPath *)selectedItemIndexPath {
     
    [self lj_collectionViewLayout].selectedItemIndexPath = selectedItemIndexPath;
-    
+
     objc_setAssociatedObject(self, "LJReordering_selectedItemIndexPath", selectedItemIndexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
