@@ -19,10 +19,15 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self.contentView addSubview:self.imageView];
-        self.imageView.frame = self.contentView.bounds;
+        
         self.contentView.backgroundColor = [UIColor lightGrayColor];
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.imageView.frame = self.contentView.bounds;
 }
 
 - (void)setImageName:(NSString *)imageName {

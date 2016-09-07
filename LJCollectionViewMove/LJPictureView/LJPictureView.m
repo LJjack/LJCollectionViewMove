@@ -18,30 +18,53 @@ static NSString * const addPictureName = @"icon-addpicture";
 
 @property (nonatomic, strong) NSMutableArray<NSString *> *dataList;
 
+@property (nonatomic, strong) LJCollectionViewMovedFlowLayout *movedFlowLayout;
+
 @end
 
 @implementation LJPictureView
 
 - (instancetype)init {
     if (self = [super init]) {
-        //设置默认值
-        self.perLineNum = 3;
-        self.cellSpacing = 4;
-        self.lineSpacing = 4;
-        self.maxPictureNum = 9;
-        
-        //添加视图
-        [self addSubview:self.collectionView];
+        [self setupDefaults];
+        [self setupUI];
     }
     return self;
 }
 
-- (void)setFrame:(CGRect)frame {
-    [super setFrame:frame];
-    self.collectionView.frame = self.bounds;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        [self setupDefaults];
+        [self setupUI];
+        
+    }
+    return self;
 }
 
-//<! cell的宽度
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    CGFloat width = [self cellWidth];
+    if (width > 0) {
+        self.collectionView.frame = self.bounds;
+        self.movedFlowLayout.itemSize = CGSizeMake(width, width);
+        self.movedFlowLayout.minimumLineSpacing = self.lineSpacing;
+        self.movedFlowLayout.minimumInteritemSpacing = self.cellSpacing;
+    }
+}
+
+//设置默认值
+- (void)setupDefaults {
+    self.perLineNum = 3;
+    self.cellSpacing = 4;
+    self.lineSpacing = 4;
+    self.maxPictureNum = 9;
+}
+
+- (void)setupUI {
+    [self addSubview:self.collectionView];
+}
+
+//cell的宽度
 - (CGFloat)cellWidth {
     return floor((self.bounds.size.width - self.cellSpacing * (self.perLineNum - 1))/self.perLineNum);
 }
@@ -67,7 +90,6 @@ static NSString * const addPictureName = @"icon-addpicture";
             return NO;
         }
     }
-    
     return YES;
 }
 
@@ -124,19 +146,6 @@ static NSString * const addPictureName = @"icon-addpicture";
     
 }
 
-#pragma mark ---- UICollectionViewDelegateFlowLayout
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat cellWidth = [self cellWidth];
-    return CGSizeMake(cellWidth, cellWidth);
-}
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return self.lineSpacing;
-}
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return self.cellSpacing;
-}
-
 #pragma mark - Setters
 
 - (void)setPictureNames:(NSArray<NSString *> *)pictureNames {
@@ -152,15 +161,13 @@ static NSString * const addPictureName = @"icon-addpicture";
         frame.size.height = weakSelf.collectionView.contentSize.height;
         weakSelf.frame = frame;
     }];
-    
 }
 
 #pragma mark - Getters
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
-        LJCollectionViewMovedFlowLayout *flowLayout = [[LJCollectionViewMovedFlowLayout alloc] init];
-        _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flowLayout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:self.movedFlowLayout];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         
@@ -177,6 +184,13 @@ static NSString * const addPictureName = @"icon-addpicture";
         [_collectionView addGestureRecognizer:longPressGestureRecognizer];
     }
     return _collectionView;
+}
+
+- (LJCollectionViewMovedFlowLayout *)movedFlowLayout {
+    if (!_movedFlowLayout) {
+        _movedFlowLayout = [[LJCollectionViewMovedFlowLayout alloc] init];
+    }
+    return _movedFlowLayout;
 }
 
 @end
