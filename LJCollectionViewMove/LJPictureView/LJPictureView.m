@@ -58,6 +58,7 @@
     self.lineSpacing = 4;
     self.maxPictureNum = 9;
     self.hiddenAddView = YES;
+    self.onlyAddViewShow = NO;
     self.hiddenDeleteView = YES;
 }
 
@@ -218,7 +219,9 @@
     _pictureArray = pictureArray;
     self.dataList = pictureArray.mutableCopy;
     if ([self isAddViewOnLastCell]) {
-        [self.dataList addObject:self.addViewImage];
+        if (pictureArray.count || self.onlyAddViewShow) {
+            [self.dataList addObject:self.addViewImage];
+        }
     }
     [self.collectionView reloadData];
     

@@ -42,6 +42,8 @@ typedef void(^LJPictureViewBlock)(CGRect frame);
 
 @property (nonatomic, strong) UIImage *addViewImage; //<! 添加视图的图片
 
+@property (nonatomic, assign) BOOL onlyAddViewShow; //<! 只有“+”是否显示，默认 NO
+
 @property (nonatomic, assign) BOOL hiddenDeleteView; //<! 隐藏删除视图, 默认是 YES
 
 @property (nonatomic, strong) UIImage *deleteViewImage; //<! 删除视图的图片
