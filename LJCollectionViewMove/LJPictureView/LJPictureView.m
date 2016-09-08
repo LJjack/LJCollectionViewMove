@@ -51,6 +51,7 @@
         self.movedFlowLayout.minimumInteritemSpacing = self.cellSpacing;
     }
 }
+#pragma mark - Private Methods
 
 //设置默认值
 - (void)setupDefaults {
@@ -73,7 +74,7 @@
 
 //最后一个cell是否显示“+”
 - (BOOL)showAddViewOnLastCell {
-    return !self.hiddenAddView && self.pictureNames.count < self.maxPictureNum;
+    return !self.hiddenAddView && self.pictureArray.count < self.maxPictureNum;
 }
 
 //cell是最后一个并且是"+"
@@ -89,6 +90,27 @@
     self.frame = frame;
     if (self && self.didFinishLayoutHeight) {
         self.didFinishLayoutHeight(height);
+    }
+}
+
+#pragma mark - Actions 
+
+- (void)handleLongPresGestureRecognizer:(UIGestureRecognizer *)gesture {
+    
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan: {
+            NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:[gesture locationInView:gesture.view]];
+            [self.collectionView lj_beginInteractiveMovementForItemAtIndexPath:indexPath];
+        } break;
+        case UIGestureRecognizerStateChanged: {
+            [self.collectionView lj_updateInteractiveMovementTargetPosition:[gesture locationInView:gesture.view]];
+        } break;
+        case UIGestureRecognizerStateEnded: {
+            [self.collectionView lj_endInteractiveMovement];
+            
+        } break;
+        default: [self.collectionView lj_cancelInteractiveMovement];
+            break;
     }
 }
 
@@ -153,25 +175,6 @@
 
 }
 
-- (void)handleLongPresGestureRecognizer:(UIGestureRecognizer *)gesture {
-    
-    switch (gesture.state) {
-        case UIGestureRecognizerStateBegan: {
-            NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:[gesture locationInView:gesture.view]];
-            [self.collectionView lj_beginInteractiveMovementForItemAtIndexPath:indexPath];
-        } break;
-        case UIGestureRecognizerStateChanged: {
-            [self.collectionView lj_updateInteractiveMovementTargetPosition:[gesture locationInView:gesture.view]];
-        } break;
-        case UIGestureRecognizerStateEnded: {
-            [self.collectionView lj_endInteractiveMovement];
-            
-        } break;
-        default: [self.collectionView lj_cancelInteractiveMovement];
-            break;
-    }
-}
-
 #pragma mark - UICollectionViewDelegate
 
 
@@ -196,12 +199,17 @@
     self.finishDeleteCell = YES;
     
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:pictureCell];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pictureView:didDeleteIndexPath:)]) {
+        [self.delegate pictureView:self didDeleteIndexPath:indexPath];
+    }
+    
     [self.dataList removeObjectAtIndex:indexPath.row];
     @autoreleasepool {
         if ([self showAddViewOnLastCell]) {
             NSMutableArray *tempMArray = [self.dataList.copy mutableCopy];
             [tempMArray removeLastObject];
-            _pictureNames = tempMArray.copy;
+            _pictureArray = tempMArray.copy;
         }
     }
     
@@ -221,9 +229,9 @@
 
 #pragma mark - Setters
 
-- (void)setPictureNames:(NSArray *)pictureNames {
-    _pictureNames = pictureNames;
-    self.dataList = pictureNames.mutableCopy;
+- (void)setPictureArray:(NSArray *)pictureArray {
+    _pictureArray = pictureArray;
+    self.dataList = pictureArray.mutableCopy;
     if ([self showAddViewOnLastCell]) {
         [self.dataList addObject:self.addViewImage];
     }

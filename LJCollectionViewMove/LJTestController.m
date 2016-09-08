@@ -33,7 +33,7 @@
 //    self.pictureView.frame = frame;
     [self setupPictureView];
     
-    self.pictureView.pictureNames = self.dataList;
+    self.pictureView.pictureArray = self.dataList;
     
 }
 
@@ -52,7 +52,7 @@
 
 - (void)pictureViewDidSelectAddCell:(LJPictureView *)pictureView {
     [self.dataList addObject:@"WechatIMG5"];
-    self.pictureView.pictureNames = self.dataList;
+    self.pictureView.pictureArray = self.dataList;
 }
 
 - (void)pictureView:(LJPictureView *)pictureView collectionView:(UICollectionView *)collectionView didSelectIndexPath:(NSIndexPath *)indexPath {
@@ -60,7 +60,7 @@
         SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
         browser.sourceImagesContainerView = collectionView;
         browser.currentImageIndex = indexPath.row;
-        browser.imageCount = pictureView.pictureNames.count;
+        browser.imageCount = pictureView.pictureArray.count;
         browser.delegate = self;
         [browser show];
     }

@@ -17,8 +17,10 @@ typedef void(^LJPictureViewBlock)(CGRect frame);
 @optional
 //<! 选中 Add
 - (void)pictureViewDidSelectAddCell:(LJPictureView *)pictureView;
-//<! 选中 cell
+//<! 选中 indexPath
 - (void)pictureView:(LJPictureView *)pictureView collectionView:(UICollectionView *)collectionView didSelectIndexPath:(NSIndexPath *)indexPath;
+//<! 删除 indexPath
+- (void)pictureView:(LJPictureView *)pictureView didDeleteIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -52,7 +54,7 @@ typedef void(^LJPictureViewBlock)(CGRect frame);
  * 需要显示的数据  
  * 如果是网络地址，请使用NSURL
  */
-@property (nonatomic, strong) NSArray *pictureNames;
+@property (nonatomic, strong) NSArray *pictureArray;
 
 /** 布局完成后的回调block，可以在这里获取到view的真实高度  */
 @property (nonatomic, copy) void(^didFinishLayoutHeight)(CGFloat height) ;
