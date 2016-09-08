@@ -21,7 +21,7 @@
                                 <rect key="frame" x="12" y="20" width="296" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="eG0-HT-d1r"/>
+                                    <constraint firstAttribute="height" constant="80" id="G7S-U6-xsH"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -34,7 +34,8 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="pictureView" destination="UTI-rL-P0n" id="7hB-Af-NdZ"/>
+                        <outlet property="pictureView" destination="UTI-rL-P0n" id="Kgu-HS-nxs"/>
+                        <outlet property="pictureViewHeight" destination="G7S-U6-xsH" id="2ff-69-tsO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

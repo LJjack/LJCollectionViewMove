@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong) UIImageView *imageView;
 
+@property (nonatomic, strong) UIImageView *deleImgView;//右上角删除按钮
+
 @end
 
 @implementation LJPictureCell
@@ -19,22 +21,62 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self.contentView addSubview:self.imageView];
-        
-        self.contentView.backgroundColor = [UIColor lightGrayColor];
+        [self.contentView addSubview:self.deleImgView];
+        self.hiddenDeleteView = YES;//默认
     }
     return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.imageView.frame = self.contentView.bounds;
+    CGRect frame = self.contentView.bounds;
+    self.imageView.frame = frame;
+    self.deleImgView.frame = CGRectMake(CGRectGetWidth(frame) - 22., 0, 22., 22.);
 }
 
-- (void)setImageName:(NSString *)imageName {
-    _imageName = imageName;
-    self.imageView.image = [UIImage imageNamed:imageName];
+#pragma mark - Actions
+
+- (void)clickDeleteView {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pictureCellClickDeleteView:)]) {
+        [self.delegate pictureCellClickDeleteView:self];
+    }
 }
 
+#pragma mark - Setters
+
+- (void)setCellImageName:(NSString *)cellImageName {
+    _cellImageName = cellImageName;
+    UIImage *image = [UIImage imageNamed:cellImageName];
+    if (!image) {
+        image = [UIImage imageWithContentsOfFile:cellImageName];
+    }
+    self.cellImage = image;
+    
+}
+
+- (void)setCellImage:(UIImage *)cellImage {
+    _cellImage = cellImage;
+    self.imageView.image = cellImage;
+}
+
+- (void)setCellImageURLString:(NSString *)cellImageURLString {
+    _cellImageURLString = cellImageURLString;
+    
+    //SDImage do 
+}
+
+- (void)setHiddenDeleteView:(BOOL)hiddenDeleteView {
+    _hiddenDeleteView = hiddenDeleteView;
+    self.deleImgView.hidden = hiddenDeleteView;
+}
+
+
+- (void)setDeleteImage:(UIImage *)deleteImage {
+    _deleteImage = deleteImage;
+    self.deleImgView.image = deleteImage;
+}
+
+#pragma mark - Getters
 - (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] init];
@@ -42,6 +84,19 @@
         _imageView.clipsToBounds = YES;
     }
     return _imageView;
+}
+
+- (UIImageView *)deleImgView {
+    if (!_deleImgView) {
+        _deleImgView = [[UIImageView alloc] init];
+        _deleImgView.backgroundColor = [UIColor clearColor];
+        _deleImgView.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] init];
+        [tap addTarget:self action:@selector(clickDeleteView)];
+        [_deleImgView addGestureRecognizer:tap];
+    }
+    return _deleImgView;
 }
 
 @end

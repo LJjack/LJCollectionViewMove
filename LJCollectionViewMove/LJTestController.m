@@ -8,12 +8,14 @@
 
 #import "LJTestController.h"
 #import "LJPictureView.h"
+
 @interface LJTestController ()<LJPictureViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray<NSString *> *dataList;
 
 //@property (nonatomic, strong) LJPictureView *pictureView;
 @property (weak, nonatomic) IBOutlet LJPictureView *pictureView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *pictureViewHeight;
 
 @end
 
@@ -27,9 +29,21 @@
 //    
 //    [self.view addSubview:self.pictureView];
 //    self.pictureView.frame = frame;
+    [self setupPictureView];
     
-    self.pictureView.delegate = self;
     self.pictureView.pictureNames = self.dataList;
+    
+}
+
+- (void)setupPictureView {
+    self.pictureView.delegate = self;
+    self.pictureView.hiddenDeleteView = NO;
+    self.pictureView.hiddenAddView = NO;
+    self.pictureView.deleteViewImage = [UIImage imageNamed:@"icon-off"];
+    self.pictureView.addViewImage = [UIImage imageNamed:@"icon-addpicture"];
+    self.pictureView.didFinishLayoutHeight = ^(CGFloat height) {
+        self.pictureViewHeight.constant = height;
+    };
 }
 
 #pragma mark - LJPictureViewDelegate

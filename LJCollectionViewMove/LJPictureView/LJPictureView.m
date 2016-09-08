@@ -10,15 +10,15 @@
 #import "LJPictureCell.h"
 #import "LJCollectionViewMovedFlowLayout.h"
 
-static NSString * const addPictureName = @"icon-addpicture";
-
-@interface LJPictureView ()<LJCollectionViewMovedFlowLayoutDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+@interface LJPictureView ()<LJCollectionViewMovedFlowLayoutDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout, LJPictureCellDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
-@property (nonatomic, strong) NSMutableArray<NSString *> *dataList;
+@property (nonatomic, strong) NSMutableArray *dataList;
 
 @property (nonatomic, strong) LJCollectionViewMovedFlowLayout *movedFlowLayout;
+
+@property (nonatomic, assign) BOOL finishDeleteCell;
 
 @end
 
@@ -58,6 +58,8 @@ static NSString * const addPictureName = @"icon-addpicture";
     self.cellSpacing = 4;
     self.lineSpacing = 4;
     self.maxPictureNum = 9;
+    self.hiddenAddView = YES;
+    self.hiddenDeleteView = YES;
 }
 
 - (void)setupUI {
@@ -69,6 +71,27 @@ static NSString * const addPictureName = @"icon-addpicture";
     return floor((self.bounds.size.width - self.cellSpacing * (self.perLineNum - 1))/self.perLineNum);
 }
 
+//最后一个cell是否显示“+”
+- (BOOL)showAddViewOnLastCell {
+    return !self.hiddenAddView && self.pictureNames.count < self.maxPictureNum;
+}
+
+//cell是最后一个并且是"+"
+- (BOOL)isAddViewLastCellIndexPath:(NSIndexPath *)indexPath {
+    return [self showAddViewOnLastCell] && indexPath.row == self.dataList.count - 1;
+}
+
+//完成对cell的操作后，布局自身的高度
+- (void)finishLayoutSelfHeight {
+    CGFloat height = self.collectionView.contentSize.height;
+    CGRect frame = self.frame;
+    frame.size.height = height;
+    self.frame = frame;
+    if (self && self.didFinishLayoutHeight) {
+        self.didFinishLayoutHeight(height);
+    }
+}
+
 #pragma mark - LJCollectionViewMovedFlowLayoutDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -78,33 +101,45 @@ static NSString * const addPictureName = @"icon-addpicture";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     LJPictureCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ViewController_cell" forIndexPath:indexPath];
     
-    cell.imageName = self.dataList[indexPath.section * indexPath.row + indexPath.row];
+    if ([self isAddViewLastCellIndexPath:indexPath]) {
+        cell.cellImage = self.dataList[indexPath.section * indexPath.row + indexPath.row];
+        cell.hiddenDeleteView = NO;
+    } else {
+        UIImage *image = [UIImage imageNamed:self.dataList[indexPath.section * indexPath.row + indexPath.row]];
+        cell.cellImage = image;
+        cell.hiddenDeleteView = self.hiddenDeleteView;
+        if (!self.hiddenDeleteView) {
+            cell.delegate = self;
+            if (self.deleteViewImage) {
+                cell.deleteImage = self.deleteViewImage;
+            }
+        }
+    }
     
     return cell;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (self.pictureNames.count < self.maxPictureNum) {
-        if (indexPath.row == self.dataList.count - 1) {
-            return NO;
-        }
+    if ([self isAddViewLastCellIndexPath:indexPath]) {
+        return NO;
     }
     return YES;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
     
-    if (self.pictureNames.count < self.maxPictureNum) {
-        if (toIndexPath.row == self.dataList.count - 1) {
-            return NO;
-        }
+    if ([self isAddViewLastCellIndexPath:toIndexPath]) {
+        return NO;
     }
     return YES;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willMoveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-    [self.dataList exchangeObjectAtIndex:fromIndexPath.item withObjectAtIndex:toIndexPath.item];
+    id tempData = self.dataList[fromIndexPath.item];
+    [self.dataList removeObjectAtIndex:fromIndexPath.item];
+    [self.dataList insertObject:tempData atIndex:toIndexPath.item];
+
 }
 
 - (void)handleLongPresGestureRecognizer:(UIGestureRecognizer *)gesture {
@@ -130,14 +165,11 @@ static NSString * const addPictureName = @"icon-addpicture";
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger row = indexPath.row;
-    if (self.pictureNames.count < self.maxPictureNum) {
-        if (row == self.dataList.count - 1) {
-            if ([self.delegate respondsToSelector:@selector(pictureViewDidSelectAddCell:)]) {
-                [self.delegate pictureViewDidSelectAddCell:self];
-            }
-            return;
+    if ([self isAddViewLastCellIndexPath:indexPath]) {
+        if ([self.delegate respondsToSelector:@selector(pictureViewDidSelectAddCell:)]) {
+            [self.delegate pictureViewDidSelectAddCell:self];
         }
+        return;
     }
     
     if ([self.delegate respondsToSelector:@selector(pictureView:didSelectCellIndexPath:)]) {
@@ -146,20 +178,53 @@ static NSString * const addPictureName = @"icon-addpicture";
     
 }
 
+#pragma mark - LJPictureCellDelegate
+
+- (void)pictureCellClickDeleteView:(LJPictureCell *)pictureCell {
+    if (self.finishDeleteCell) return;
+    self.finishDeleteCell = YES;
+    
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:pictureCell];
+    [self.dataList removeObjectAtIndex:indexPath.row];
+    @autoreleasepool {
+        if ([self showAddViewOnLastCell]) {
+            NSMutableArray *tempMArray = [self.dataList.copy mutableCopy];
+            [tempMArray removeLastObject];
+            _pictureNames = tempMArray.copy;
+        }
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    [self.collectionView performBatchUpdates:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+    } completion:^(BOOL finished) {
+        if (finished) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf finishLayoutSelfHeight];
+            strongSelf.finishDeleteCell = NO;
+        }
+    }];
+    
+}
+
 #pragma mark - Setters
 
 - (void)setPictureNames:(NSArray<NSString *> *)pictureNames {
     _pictureNames = pictureNames;
     self.dataList = pictureNames.mutableCopy;
-    if (pictureNames.count < self.maxPictureNum) {
-        [self.dataList addObject:addPictureName];
+    if ([self showAddViewOnLastCell]) {
+        [self.dataList addObject:self.addViewImage];
     }
     [self.collectionView reloadData];
+    
+    //布局
     __weak typeof(self) weakSelf = self;
     [self.collectionView performBatchUpdates:nil completion:^(BOOL finished) {
-        CGRect frame = weakSelf.frame;
-        frame.size.height = weakSelf.collectionView.contentSize.height;
-        weakSelf.frame = frame;
+        if (finished) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf finishLayoutSelfHeight];
+        }
     }];
 }
 
@@ -180,7 +245,6 @@ static NSString * const addPictureName = @"icon-addpicture";
                 [gestureRecognizer requireGestureRecognizerToFail:longPressGestureRecognizer];
             }
         }
-        
         [_collectionView addGestureRecognizer:longPressGestureRecognizer];
     }
     return _collectionView;

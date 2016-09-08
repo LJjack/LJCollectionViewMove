@@ -12,6 +12,7 @@
 @interface LJCollectionViewMovedFlowLayout ()
 
 @property (strong, nonatomic) NSIndexPath *selectedItemIndexPath;
+
 @end
 
 @implementation LJCollectionViewMovedFlowLayout
@@ -147,7 +148,7 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
 - (void)updateLayoutMovementTargetPosition:(CGPoint)targetPosition {
     NSIndexPath *previousIndexPath = self.selectedItemIndexPath;
     NSIndexPath *newIndexPath = [self indexPathForItemAtPoint:targetPosition];
-    if ((newIndexPath == nil) || newIndexPath == previousIndexPath) {
+    if (!newIndexPath || !previousIndexPath || newIndexPath == previousIndexPath) {
         return;
     }
     if ([[self lj_dataSource] respondsToSelector:@selector(collectionView:canMoveItemAtIndexPath:toIndexPath:)] &&
@@ -160,6 +161,7 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
     }
     
     self.selectedItemIndexPath = newIndexPath;
+    
     if ([[self lj_dataSource] respondsToSelector:@selector(collectionView:willMoveItemAtIndexPath:toIndexPath:)]) {
         [[self lj_dataSource] collectionView:self willMoveItemAtIndexPath:previousIndexPath toIndexPath:newIndexPath];
     }
@@ -168,8 +170,9 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
     [self performBatchUpdates:^{
         __strong typeof(self) strongSelf = weakSelf;
         if (strongSelf) {
-            [strongSelf deleteItemsAtIndexPaths:@[previousIndexPath]];
-            [strongSelf insertItemsAtIndexPaths:@[newIndexPath]];
+//            [strongSelf deleteItemsAtIndexPaths:@[previousIndexPath]];
+//            [strongSelf insertItemsAtIndexPaths:@[newIndexPath]];
+            [strongSelf moveItemAtIndexPath:previousIndexPath toIndexPath:newIndexPath];
         }
     } completion:^(BOOL finished) {
         __strong typeof(self) strongSelf = weakSelf;
