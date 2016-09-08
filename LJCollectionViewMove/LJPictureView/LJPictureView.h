@@ -54,7 +54,7 @@ typedef void(^LJPictureViewBlock)(CGRect frame);
  * 需要显示的数据  
  * 如果是网络地址，请使用NSURL
  */
-@property (nonatomic, strong) NSArray *pictureArray;
+@property (nonatomic, copy) NSArray *pictureArray;
 
 /** 布局完成后的回调block，可以在这里获取到view的真实高度  */
 @property (nonatomic, copy) void(^didFinishLayoutHeight)(CGFloat height) ;

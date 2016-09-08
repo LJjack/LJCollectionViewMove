@@ -18,8 +18,6 @@
 
 @property (nonatomic, strong) LJCollectionViewMovedFlowLayout *movedFlowLayout;
 
-@property (nonatomic, assign) BOOL finishDeleteCell;
-
 @end
 
 @implementation LJPictureView
@@ -72,14 +70,14 @@
     return floor((self.bounds.size.width - self.cellSpacing * (self.perLineNum - 1))/self.perLineNum);
 }
 
-//最后一个cell是否显示“+”
-- (BOOL)showAddViewOnLastCell {
+//最后一个cell是否是“+”
+- (BOOL)isAddViewOnLastCell {
     return !self.hiddenAddView && self.pictureArray.count < self.maxPictureNum;
 }
 
 //cell是最后一个并且是"+"
 - (BOOL)isAddViewLastCellIndexPath:(NSIndexPath *)indexPath {
-    return [self showAddViewOnLastCell] && indexPath.row == self.dataList.count - 1;
+    return [self isAddViewOnLastCell] && indexPath.row == self.dataList.count - 1;
 }
 
 //完成对cell的操作后，布局自身的高度
@@ -195,8 +193,6 @@
 #pragma mark - LJPictureCellDelegate
 
 - (void)pictureCellClickDeleteView:(LJPictureCell *)pictureCell {
-    if (self.finishDeleteCell) return;
-    self.finishDeleteCell = YES;
     
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:pictureCell];
     
@@ -206,25 +202,14 @@
     
     [self.dataList removeObjectAtIndex:indexPath.row];
     @autoreleasepool {
-        if ([self showAddViewOnLastCell]) {
-            NSMutableArray *tempMArray = [self.dataList.copy mutableCopy];
+        NSMutableArray *tempMArray = [self.dataList.copy mutableCopy];
+        if ([self isAddViewOnLastCell]) {
             [tempMArray removeLastObject];
-            _pictureArray = tempMArray.copy;
+            self.pictureArray = tempMArray.copy;
+        } else {
+            self.pictureArray = tempMArray.copy;
         }
     }
-    
-    __weak typeof(self) weakSelf = self;
-    [self.collectionView performBatchUpdates:^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf.collectionView deleteItemsAtIndexPaths:@[indexPath]];
-    } completion:^(BOOL finished) {
-        if (finished) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            [strongSelf finishLayoutSelfHeight];
-            strongSelf.finishDeleteCell = NO;
-        }
-    }];
-    
 }
 
 #pragma mark - Setters
@@ -232,7 +217,7 @@
 - (void)setPictureArray:(NSArray *)pictureArray {
     _pictureArray = pictureArray;
     self.dataList = pictureArray.mutableCopy;
-    if ([self showAddViewOnLastCell]) {
+    if ([self isAddViewOnLastCell]) {
         [self.dataList addObject:self.addViewImage];
     }
     [self.collectionView reloadData];

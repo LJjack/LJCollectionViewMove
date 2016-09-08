@@ -32,7 +32,7 @@
     [super layoutSubviews];
     CGRect frame = self.contentView.bounds;
     self.imageView.frame = frame;
-    self.deleImgView.frame = CGRectMake(CGRectGetWidth(frame) - 22., 0, 22., 22.);
+    self.deleImgView.frame = CGRectMake(CGRectGetWidth(frame) - 33., 0, 33., 33.);
 }
 
 #pragma mark - Actions
@@ -93,6 +93,7 @@
     if (!_deleImgView) {
         _deleImgView = [[UIImageView alloc] init];
         _deleImgView.backgroundColor = [UIColor clearColor];
+        _deleImgView.contentMode = UIViewContentModeTopRight;
         _deleImgView.userInteractionEnabled = YES;
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] init];

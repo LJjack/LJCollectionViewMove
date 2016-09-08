@@ -33,7 +33,7 @@
 //    self.pictureView.frame = frame;
     [self setupPictureView];
     
-    self.pictureView.pictureArray = self.dataList;
+    self.pictureView.pictureArray = self.dataList.copy;
     
 }
 
@@ -52,7 +52,8 @@
 
 - (void)pictureViewDidSelectAddCell:(LJPictureView *)pictureView {
     [self.dataList addObject:@"WechatIMG5"];
-    self.pictureView.pictureArray = self.dataList;
+    //必须使用copy
+    self.pictureView.pictureArray = self.dataList.copy;
 }
 
 - (void)pictureView:(LJPictureView *)pictureView collectionView:(UICollectionView *)collectionView didSelectIndexPath:(NSIndexPath *)indexPath {
