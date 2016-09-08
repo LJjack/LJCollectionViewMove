@@ -48,8 +48,11 @@ typedef void(^LJPictureViewBlock)(CGRect frame);
 
 // ====== 以上是 LJPictureView 的配置 ======
 
-/** 需要显示的数据  */
-@property (nonatomic, strong) NSArray<NSString *> *pictureNames;
+/** 
+ * 需要显示的数据  
+ * 如果是网络地址，请使用NSURL
+ */
+@property (nonatomic, strong) NSArray *pictureNames;
 
 /** 布局完成后的回调block，可以在这里获取到view的真实高度  */
 @property (nonatomic, copy) void(^didFinishLayoutHeight)(CGFloat height) ;

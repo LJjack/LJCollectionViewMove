@@ -221,7 +221,7 @@
 
 #pragma mark - Setters
 
-- (void)setPictureNames:(NSArray<NSString *> *)pictureNames {
+- (void)setPictureNames:(NSArray *)pictureNames {
     _pictureNames = pictureNames;
     self.dataList = pictureNames.mutableCopy;
     if ([self showAddViewOnLastCell]) {
