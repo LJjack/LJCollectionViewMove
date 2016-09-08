@@ -9,9 +9,11 @@
 #import "LJTestController.h"
 #import "LJPictureView.h"
 
-@interface LJTestController ()<LJPictureViewDelegate>
+#import "SDPhotoBrowser.h"//放大图片
 
-@property (nonatomic, strong) NSMutableArray<NSString *> *dataList;
+@interface LJTestController ()<LJPictureViewDelegate, SDPhotoBrowserDelegate>
+
+@property (nonatomic, strong) NSMutableArray *dataList;
 
 //@property (nonatomic, strong) LJPictureView *pictureView;
 @property (weak, nonatomic) IBOutlet LJPictureView *pictureView;
@@ -53,9 +55,25 @@
     self.pictureView.pictureNames = self.dataList;
 }
 
-- (void)pictureView:(LJPictureView *)pictureView didSelectCellIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)pictureView:(LJPictureView *)pictureView collectionView:(UICollectionView *)collectionView didSelectIndexPath:(NSIndexPath *)indexPath {
+    @autoreleasepool {
+        SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
+        browser.sourceImagesContainerView = collectionView;
+        browser.currentImageIndex = indexPath.row;
+        browser.imageCount = pictureView.pictureNames.count;
+        browser.delegate = self;
+        [browser show];
+    }
 }
+
+- (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index {
+    return [UIImage imageNamed:self.dataList[index]];
+}
+
+//- (NSURL *)photoBrowser:(SDPhotoBrowser *)browser highQualityImageURLForIndex:(NSInteger)index {
+//    
+//}
+
 
 //- (LJPictureView *)pictureView {
 //    if (!_pictureView) {

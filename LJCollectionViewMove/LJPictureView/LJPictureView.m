@@ -105,8 +105,19 @@
         cell.cellImage = self.dataList[indexPath.section * indexPath.row + indexPath.row];
         cell.hiddenDeleteView = NO;
     } else {
-        UIImage *image = [UIImage imageNamed:self.dataList[indexPath.section * indexPath.row + indexPath.row]];
-        cell.cellImage = image;
+        id imageData= self.dataList[indexPath.section * indexPath.row + indexPath.row];
+        //选择类型
+        if ([imageData isKindOfClass:[NSString class]]) {
+            cell.cellImageName = imageData;
+        } else if ([imageData isKindOfClass:[UIImage class]]) {
+            cell.cellImage = imageData;
+        } else if ([imageData isKindOfClass:[NSURL class]]) {
+            if (self.placeholderImage) {
+                cell.placeholderImage = self.placeholderImage;
+            }
+            cell.cellImageURL = imageData;
+        }
+        //删除视图
         cell.hiddenDeleteView = self.hiddenDeleteView;
         if (!self.hiddenDeleteView) {
             cell.delegate = self;
@@ -172,8 +183,8 @@
         return;
     }
     
-    if ([self.delegate respondsToSelector:@selector(pictureView:didSelectCellIndexPath:)]) {
-        [self.delegate pictureView:self didSelectCellIndexPath:indexPath];
+    if ([self.delegate respondsToSelector:@selector(pictureView:collectionView:didSelectIndexPath:)]) {
+        [self.delegate pictureView:self collectionView:collectionView didSelectIndexPath:indexPath];
     }
     
 }

@@ -18,7 +18,7 @@ typedef void(^LJPictureViewBlock)(CGRect frame);
 //<! 选中 Add
 - (void)pictureViewDidSelectAddCell:(LJPictureView *)pictureView;
 //<! 选中 cell
-- (void)pictureView:(LJPictureView *)pictureView didSelectCellIndexPath:(NSIndexPath *)indexPath;
+- (void)pictureView:(LJPictureView *)pictureView collectionView:(UICollectionView *)collectionView didSelectIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -43,6 +43,8 @@ typedef void(^LJPictureViewBlock)(CGRect frame);
 @property (nonatomic, assign) BOOL hiddenDeleteView; //<! 隐藏删除视图, 默认是 YES
 
 @property (nonatomic, strong) UIImage *deleteViewImage; //<! 删除视图的图片
+
+@property (nonatomic, strong) UIImage *placeholderImage; //<! 加载网络图片的占位图
 
 // ====== 以上是 LJPictureView 的配置 ======
 

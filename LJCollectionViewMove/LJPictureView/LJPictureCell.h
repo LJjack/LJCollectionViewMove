@@ -24,7 +24,9 @@
 
 @property (nonatomic, strong) UIImage *cellImage;
 
-@property (nonatomic, strong) NSString *cellImageURLString;
+@property (nonatomic, strong) NSURL *cellImageURL;
+
+@property (nonatomic, strong) UIImage *placeholderImage; //<! 加载网络图片的占位图
 
 @property (nonatomic, assign) BOOL hiddenDeleteView;//隐藏删除视图, 默认是 YES
 

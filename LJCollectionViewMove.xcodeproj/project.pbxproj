@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		179679D9FB16B1EC0A4EFF1F /* libPods-LJCollectionViewMove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEACE2B1506FF4E34D2CB6F6 /* libPods-LJCollectionViewMove.a */; };
 		83A22D981D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D931D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m */; };
 		83A22D991D7FECC000FE1E4A /* LJPictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D951D7FECC000FE1E4A /* LJPictureCell.m */; };
 		83A22D9A1D7FECC000FE1E4A /* LJPictureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D971D7FECC000FE1E4A /* LJPictureView.m */; };
+		83B4D4FF1D81548E00F970E1 /* SDBrowserImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B4D4F91D81548E00F970E1 /* SDBrowserImageView.m */; };
+		83B4D5001D81548E00F970E1 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B4D4FB1D81548E00F970E1 /* SDPhotoBrowser.m */; };
+		83B4D5011D81548E00F970E1 /* SDWaitingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B4D4FE1D81548E00F970E1 /* SDWaitingView.m */; };
 		83BC12A71D7EAF4A0084F8AA /* LJTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC12A61D7EAF4A0084F8AA /* LJTestController.m */; };
 		83F7AADF1D7D7385005D007D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7AADE1D7D7385005D007D /* main.m */; };
 		83F7AAE21D7D7385005D007D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7AAE11D7D7385005D007D /* AppDelegate.m */; };
@@ -25,6 +29,13 @@
 		83A22D951D7FECC000FE1E4A /* LJPictureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJPictureCell.m; sourceTree = "<group>"; };
 		83A22D961D7FECC000FE1E4A /* LJPictureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJPictureView.h; sourceTree = "<group>"; };
 		83A22D971D7FECC000FE1E4A /* LJPictureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJPictureView.m; sourceTree = "<group>"; };
+		83B4D4F81D81548E00F970E1 /* SDBrowserImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDBrowserImageView.h; sourceTree = "<group>"; };
+		83B4D4F91D81548E00F970E1 /* SDBrowserImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDBrowserImageView.m; sourceTree = "<group>"; };
+		83B4D4FA1D81548E00F970E1 /* SDPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowser.h; sourceTree = "<group>"; };
+		83B4D4FB1D81548E00F970E1 /* SDPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDPhotoBrowser.m; sourceTree = "<group>"; };
+		83B4D4FC1D81548E00F970E1 /* SDPhotoBrowserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDPhotoBrowserConfig.h; sourceTree = "<group>"; };
+		83B4D4FD1D81548E00F970E1 /* SDWaitingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDWaitingView.h; sourceTree = "<group>"; };
+		83B4D4FE1D81548E00F970E1 /* SDWaitingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDWaitingView.m; sourceTree = "<group>"; };
 		83BC12A51D7EAF4A0084F8AA /* LJTestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJTestController.h; sourceTree = "<group>"; };
 		83BC12A61D7EAF4A0084F8AA /* LJTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJTestController.m; sourceTree = "<group>"; };
 		83F7AADA1D7D7385005D007D /* LJCollectionViewMove.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LJCollectionViewMove.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -35,6 +46,9 @@
 		83F7AAE91D7D7385005D007D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		83F7AAEC1D7D7385005D007D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83F7AAEE1D7D7385005D007D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9ACA5ADB4905F4DD0ACAD329 /* Pods-LJCollectionViewMove.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LJCollectionViewMove.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LJCollectionViewMove/Pods-LJCollectionViewMove.debug.xcconfig"; sourceTree = "<group>"; };
+		CEACE2B1506FF4E34D2CB6F6 /* libPods-LJCollectionViewMove.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LJCollectionViewMove.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5095BB6D88A250F2C9033D1 /* Pods-LJCollectionViewMove.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LJCollectionViewMove.release.xcconfig"; path = "Pods/Target Support Files/Pods-LJCollectionViewMove/Pods-LJCollectionViewMove.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,12 +56,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				179679D9FB16B1EC0A4EFF1F /* libPods-LJCollectionViewMove.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E2D57816BCB9F1C54C4B035 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9ACA5ADB4905F4DD0ACAD329 /* Pods-LJCollectionViewMove.debug.xcconfig */,
+				F5095BB6D88A250F2C9033D1 /* Pods-LJCollectionViewMove.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		83A22D911D7FECC000FE1E4A /* LJPictureView */ = {
 			isa = PBXGroup;
 			children = (
@@ -61,11 +85,27 @@
 			path = LJPictureView;
 			sourceTree = "<group>";
 		};
+		83B4D4F71D81548E00F970E1 /* SDPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				83B4D4F81D81548E00F970E1 /* SDBrowserImageView.h */,
+				83B4D4F91D81548E00F970E1 /* SDBrowserImageView.m */,
+				83B4D4FA1D81548E00F970E1 /* SDPhotoBrowser.h */,
+				83B4D4FB1D81548E00F970E1 /* SDPhotoBrowser.m */,
+				83B4D4FC1D81548E00F970E1 /* SDPhotoBrowserConfig.h */,
+				83B4D4FD1D81548E00F970E1 /* SDWaitingView.h */,
+				83B4D4FE1D81548E00F970E1 /* SDWaitingView.m */,
+			);
+			path = SDPhotoBrowser;
+			sourceTree = "<group>";
+		};
 		83F7AAD11D7D7385005D007D = {
 			isa = PBXGroup;
 			children = (
 				83F7AADC1D7D7385005D007D /* LJCollectionViewMove */,
 				83F7AADB1D7D7385005D007D /* Products */,
+				4E2D57816BCB9F1C54C4B035 /* Pods */,
+				EC8F8BA6368E9967358E0D8D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -80,6 +120,7 @@
 		83F7AADC1D7D7385005D007D /* LJCollectionViewMove */ = {
 			isa = PBXGroup;
 			children = (
+				83B4D4F71D81548E00F970E1 /* SDPhotoBrowser */,
 				83A22D911D7FECC000FE1E4A /* LJPictureView */,
 				83F7AAE01D7D7385005D007D /* AppDelegate.h */,
 				83F7AAE11D7D7385005D007D /* AppDelegate.m */,
@@ -102,6 +143,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		EC8F8BA6368E9967358E0D8D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CEACE2B1506FF4E34D2CB6F6 /* libPods-LJCollectionViewMove.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -109,9 +158,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 83F7AAF11D7D7385005D007D /* Build configuration list for PBXNativeTarget "LJCollectionViewMove" */;
 			buildPhases = (
+				FBA211E2A908C8006D1F9E0C /* 📦 Check Pods Manifest.lock */,
 				83F7AAD61D7D7385005D007D /* Sources */,
 				83F7AAD71D7D7385005D007D /* Frameworks */,
 				83F7AAD81D7D7385005D007D /* Resources */,
+				DEBE1C4B61B0A04149556FC8 /* 📦 Embed Pods Frameworks */,
+				3EBC141476E552F140DD366E /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -167,15 +219,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3EBC141476E552F140DD366E /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LJCollectionViewMove/Pods-LJCollectionViewMove-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DEBE1C4B61B0A04149556FC8 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LJCollectionViewMove/Pods-LJCollectionViewMove-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FBA211E2A908C8006D1F9E0C /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		83F7AAD61D7D7385005D007D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83B4D5001D81548E00F970E1 /* SDPhotoBrowser.m in Sources */,
 				83BC12A71D7EAF4A0084F8AA /* LJTestController.m in Sources */,
+				83B4D5011D81548E00F970E1 /* SDWaitingView.m in Sources */,
 				83F7AAE21D7D7385005D007D /* AppDelegate.m in Sources */,
 				83A22D981D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m in Sources */,
 				83A22D9A1D7FECC000FE1E4A /* LJPictureView.m in Sources */,
+				83B4D4FF1D81548E00F970E1 /* SDBrowserImageView.m in Sources */,
 				83F7AADF1D7D7385005D007D /* main.m in Sources */,
 				83A22D991D7FECC000FE1E4A /* LJPictureCell.m in Sources */,
 			);
@@ -287,6 +390,7 @@
 		};
 		83F7AAF21D7D7385005D007D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9ACA5ADB4905F4DD0ACAD329 /* Pods-LJCollectionViewMove.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LJCollectionViewMove/Info.plist;
@@ -299,6 +403,7 @@
 		};
 		83F7AAF31D7D7385005D007D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F5095BB6D88A250F2C9033D1 /* Pods-LJCollectionViewMove.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LJCollectionViewMove/Info.plist;

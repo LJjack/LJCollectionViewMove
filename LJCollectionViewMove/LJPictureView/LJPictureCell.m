@@ -7,6 +7,7 @@
 //
 
 #import "LJPictureCell.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface LJPictureCell ()
 
@@ -59,10 +60,12 @@
     self.imageView.image = cellImage;
 }
 
-- (void)setCellImageURLString:(NSString *)cellImageURLString {
-    _cellImageURLString = cellImageURLString;
+- (void)setCellImageURL:(NSURL *)cellImageURL {
+    _cellImageURL = cellImageURL;
     
-    //SDImage do 
+    [self.imageView sd_setImageWithURL:cellImageURL placeholderImage:self.placeholderImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        _cellImage = image;
+    }];
 }
 
 - (void)setHiddenDeleteView:(BOOL)hiddenDeleteView {
