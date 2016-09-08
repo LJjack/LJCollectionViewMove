@@ -66,6 +66,12 @@
     }
 }
 
+- (void)pictureView:(LJPictureView *)pictureView didDeleteIndexPath:(NSIndexPath *)indexPath {
+    [self.dataList removeObjectAtIndex:indexPath.row];
+}
+
+#pragma mark - SDPhotoBrowserDelegate
+
 - (UIImage *)photoBrowser:(SDPhotoBrowser *)browser placeholderImageForIndex:(NSInteger)index {
     return [UIImage imageNamed:self.dataList[index]];
 }

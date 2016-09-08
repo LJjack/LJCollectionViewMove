@@ -125,7 +125,7 @@
     
     if ([self isAddViewLastCellIndexPath:indexPath]) {
         cell.cellImage = self.dataList[indexPath.section * indexPath.row + indexPath.row];
-        cell.hiddenDeleteView = NO;
+        cell.hiddenDeleteView = YES;
     } else {
         id imageData= self.dataList[indexPath.section * indexPath.row + indexPath.row];
         //选择类型
