@@ -100,7 +100,7 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
     
     UICollectionViewCell *collectionViewCell = [self cellForItemAtIndexPath:indexPath];
     
-    self.currentView = [collectionViewCell snapshotViewAfterScreenUpdates:YES];
+    self.currentView = [collectionViewCell snapshotViewAfterScreenUpdates:NO];
     self.currentView.frame = collectionViewCell.frame;
     self.currentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self addSubview:self.currentView];
