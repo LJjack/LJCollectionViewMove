@@ -45,7 +45,7 @@
     self.pictureView.deleteViewImage = [UIImage imageNamed:@"icon-off"];
     self.pictureView.addViewImage = [UIImage imageNamed:@"icon-addpicture"];
     self.pictureView.didFinishLayoutHeight = ^(CGFloat height) {
-        self.pictureViewHeight.constant = height;
+    self.pictureViewHeight.constant = height;
     };
 }
 
