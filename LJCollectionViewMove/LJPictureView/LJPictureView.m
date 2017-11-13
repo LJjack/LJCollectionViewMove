@@ -8,15 +8,15 @@
 
 #import "LJPictureView.h"
 #import "LJPictureCell.h"
-#import "LJCollectionViewMovedFlowLayout.h"
+//#import "LJCollectionViewMovedFlowLayout.h"
 
-@interface LJPictureView ()<LJCollectionViewMovedFlowLayoutDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout, LJPictureCellDelegate>
+@interface LJPictureView ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LJPictureCellDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
 @property (nonatomic, strong) NSMutableArray *dataList;
 
-@property (nonatomic, strong) LJCollectionViewMovedFlowLayout *movedFlowLayout;
+@property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 
 @end
 
@@ -44,9 +44,9 @@
     CGFloat width = [self cellWidth];
     if (width > 0) {
         self.collectionView.frame = self.bounds;
-        self.movedFlowLayout.itemSize = CGSizeMake(width, width);
-        self.movedFlowLayout.minimumLineSpacing = self.lineSpacing;
-        self.movedFlowLayout.minimumInteritemSpacing = self.cellSpacing;
+        self.flowLayout.itemSize = CGSizeMake(width, width);
+        self.flowLayout.minimumLineSpacing = self.lineSpacing;
+        self.flowLayout.minimumInteritemSpacing = self.cellSpacing;
     }
 }
 #pragma mark - Private Methods
@@ -99,16 +99,16 @@
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan: {
             NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:[gesture locationInView:gesture.view]];
-            [self.collectionView lj_beginInteractiveMovementForItemAtIndexPath:indexPath];
+            [self.collectionView beginInteractiveMovementForItemAtIndexPath:indexPath];
         } break;
         case UIGestureRecognizerStateChanged: {
-            [self.collectionView lj_updateInteractiveMovementTargetPosition:[gesture locationInView:gesture.view]];
+            [self.collectionView updateInteractiveMovementTargetPosition:[gesture locationInView:gesture.view]];
         } break;
         case UIGestureRecognizerStateEnded: {
-            [self.collectionView lj_endInteractiveMovement];
+            [self.collectionView endInteractiveMovement];
             
         } break;
-        default: [self.collectionView lj_cancelInteractiveMovement];
+        default: [self.collectionView cancelInteractiveMovement];
             break;
     }
 }
@@ -151,7 +151,7 @@
     return cell;
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
     if ([self isAddViewLastCellIndexPath:indexPath]) {
         return NO;
@@ -159,18 +159,13 @@
     return YES;
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-    
-    if ([self isAddViewLastCellIndexPath:toIndexPath]) {
-        return NO;
-    }
-    return YES;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView willMoveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-    id tempData = self.dataList[fromIndexPath.item];
-    [self.dataList removeObjectAtIndex:fromIndexPath.item];
-    [self.dataList insertObject:tempData atIndex:toIndexPath.item];
+- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(nonnull NSIndexPath *)sourceIndexPath toIndexPath:(nonnull NSIndexPath *)destinationIndexPath {
+    // 取出源item数据
+    id tempData = self.dataList[sourceIndexPath.item];
+    //从资源数组中移除该数据
+    [self.dataList removeObjectAtIndex:sourceIndexPath.item];
+    //将数据插入到资源数组中的目标位置上
+    [self.dataList insertObject:tempData atIndex:destinationIndexPath.item];
 
 }
 
@@ -239,7 +234,7 @@
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
-        _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:self.movedFlowLayout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:self.flowLayout];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         
@@ -257,11 +252,11 @@
     return _collectionView;
 }
 
-- (LJCollectionViewMovedFlowLayout *)movedFlowLayout {
-    if (!_movedFlowLayout) {
-        _movedFlowLayout = [[LJCollectionViewMovedFlowLayout alloc] init];
+- (UICollectionViewFlowLayout *)flowLayout {
+    if (!_flowLayout) {
+        _flowLayout = [[UICollectionViewFlowLayout alloc] init];
     }
-    return _movedFlowLayout;
+    return _flowLayout;
 }
 
 @end
