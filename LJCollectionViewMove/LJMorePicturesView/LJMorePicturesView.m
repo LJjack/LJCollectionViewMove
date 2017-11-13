@@ -7,10 +7,10 @@
 //
 
 #import "LJMorePicturesView.h"
-#import "LJPictureCell.h"
+#import "LJMorePicturesCell.h"
 //#import "LJCollectionViewMovedFlowLayout.h"
 
-@interface LJMorePicturesView ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LJPictureCellDelegate>
+@interface LJMorePicturesView ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LJMorePicturesCellDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
@@ -120,7 +120,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    LJPictureCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ViewController_cell" forIndexPath:indexPath];
+    LJMorePicturesCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ViewController_cell" forIndexPath:indexPath];
     
     if ([self isAddViewLastCellIndexPath:indexPath]) {
         cell.cellImage = self.dataList[indexPath.section * indexPath.row + indexPath.row];
@@ -132,11 +132,6 @@
             cell.cellImageName = imageData;
         } else if ([imageData isKindOfClass:[UIImage class]]) {
             cell.cellImage = imageData;
-        } else if ([imageData isKindOfClass:[NSURL class]]) {
-            if (self.placeholderImage) {
-                cell.placeholderImage = self.placeholderImage;
-            }
-            cell.cellImageURL = imageData;
         }
         //删除视图
         cell.hiddenDeleteView = self.hiddenDeleteView;
@@ -186,9 +181,9 @@
     
 }
 
-#pragma mark - LJPictureCellDelegate
+#pragma mark - LJMorePicturesCellDelegate
 
-- (void)pictureCellClickDeleteView:(LJPictureCell *)pictureCell {
+- (void)morePicturesCellClickDeleteView:(LJMorePicturesCell *)pictureCell {
     
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:pictureCell];
     
@@ -239,7 +234,7 @@
         _collectionView.delegate = self;
         
         _collectionView.backgroundColor = [UIColor colorWithRed:0.8568 green:0.8568 blue:0.8568 alpha:1.0];
-        [_collectionView registerClass:[LJPictureCell class] forCellWithReuseIdentifier:@"ViewController_cell"];
+        [_collectionView registerClass:[LJMorePicturesCell class] forCellWithReuseIdentifier:@"ViewController_cell"];
         UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPresGestureRecognizer:)];
         // 兼容系统手势
         for (UIGestureRecognizer *gestureRecognizer in _collectionView.gestureRecognizers) {

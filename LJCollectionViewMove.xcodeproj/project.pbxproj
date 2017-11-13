@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		179679D9FB16B1EC0A4EFF1F /* libPods-LJCollectionViewMove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEACE2B1506FF4E34D2CB6F6 /* libPods-LJCollectionViewMove.a */; };
 		83A22D981D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D931D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m */; };
-		83A22D991D7FECC000FE1E4A /* LJPictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D951D7FECC000FE1E4A /* LJPictureCell.m */; };
+		83A22D991D7FECC000FE1E4A /* LJMorePicturesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D951D7FECC000FE1E4A /* LJMorePicturesCell.m */; };
 		83A22D9A1D7FECC000FE1E4A /* LJMorePicturesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D971D7FECC000FE1E4A /* LJMorePicturesView.m */; };
 		83B4D4FF1D81548E00F970E1 /* SDBrowserImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B4D4F91D81548E00F970E1 /* SDBrowserImageView.m */; };
 		83B4D5001D81548E00F970E1 /* SDPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B4D4FB1D81548E00F970E1 /* SDPhotoBrowser.m */; };
@@ -25,8 +25,8 @@
 /* Begin PBXFileReference section */
 		83A22D921D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJCollectionViewMovedFlowLayout.h; sourceTree = "<group>"; };
 		83A22D931D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJCollectionViewMovedFlowLayout.m; sourceTree = "<group>"; };
-		83A22D941D7FECC000FE1E4A /* LJPictureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJPictureCell.h; sourceTree = "<group>"; };
-		83A22D951D7FECC000FE1E4A /* LJPictureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJPictureCell.m; sourceTree = "<group>"; };
+		83A22D941D7FECC000FE1E4A /* LJMorePicturesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJMorePicturesCell.h; sourceTree = "<group>"; };
+		83A22D951D7FECC000FE1E4A /* LJMorePicturesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJMorePicturesCell.m; sourceTree = "<group>"; };
 		83A22D961D7FECC000FE1E4A /* LJMorePicturesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJMorePicturesView.h; sourceTree = "<group>"; };
 		83A22D971D7FECC000FE1E4A /* LJMorePicturesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJMorePicturesView.m; sourceTree = "<group>"; };
 		83B4D4F81D81548E00F970E1 /* SDBrowserImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDBrowserImageView.h; sourceTree = "<group>"; };
@@ -73,17 +73,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		83A22D911D7FECC000FE1E4A /* LJPictureView */ = {
+		83A22D911D7FECC000FE1E4A /* LJMorePicturesView */ = {
 			isa = PBXGroup;
 			children = (
 				83A22D921D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.h */,
 				83A22D931D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m */,
-				83A22D941D7FECC000FE1E4A /* LJPictureCell.h */,
-				83A22D951D7FECC000FE1E4A /* LJPictureCell.m */,
+				83A22D941D7FECC000FE1E4A /* LJMorePicturesCell.h */,
+				83A22D951D7FECC000FE1E4A /* LJMorePicturesCell.m */,
 				83A22D961D7FECC000FE1E4A /* LJMorePicturesView.h */,
 				83A22D971D7FECC000FE1E4A /* LJMorePicturesView.m */,
 			);
-			path = LJPictureView;
+			path = LJMorePicturesView;
 			sourceTree = "<group>";
 		};
 		83B4D4F71D81548E00F970E1 /* SDPhotoBrowser */ = {
@@ -122,7 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				83B4D4F71D81548E00F970E1 /* SDPhotoBrowser */,
-				83A22D911D7FECC000FE1E4A /* LJPictureView */,
+				83A22D911D7FECC000FE1E4A /* LJMorePicturesView */,
 				83F7AAE01D7D7385005D007D /* AppDelegate.h */,
 				83F7AAE11D7D7385005D007D /* AppDelegate.m */,
 				83BC12A51D7EAF4A0084F8AA /* LJTestController.h */,
@@ -287,7 +287,7 @@
 				83A22D9A1D7FECC000FE1E4A /* LJMorePicturesView.m in Sources */,
 				83B4D4FF1D81548E00F970E1 /* SDBrowserImageView.m in Sources */,
 				83F7AADF1D7D7385005D007D /* main.m in Sources */,
-				83A22D991D7FECC000FE1E4A /* LJPictureCell.m in Sources */,
+				83A22D991D7FECC000FE1E4A /* LJMorePicturesCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

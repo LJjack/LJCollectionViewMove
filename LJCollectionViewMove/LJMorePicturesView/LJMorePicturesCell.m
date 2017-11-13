@@ -1,15 +1,14 @@
 //
-//  LJPictureCell.m
+//  LJMorePicturesCell.m
 //  LJCollectionViewMove
 //
 //  Created by 刘俊杰 on 16/9/7.
 //  Copyright © 2016年 不囧. All rights reserved.
 //
 
-#import "LJPictureCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+#import "LJMorePicturesCell.h"
 
-@interface LJPictureCell ()
+@interface LJMorePicturesCell ()
 
 @property (nonatomic, strong) UIImageView *imageView;
 
@@ -17,7 +16,7 @@
 
 @end
 
-@implementation LJPictureCell
+@implementation LJMorePicturesCell
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -38,9 +37,7 @@
 #pragma mark - Actions
 
 - (void)clickDeleteView {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(pictureCellClickDeleteView:)]) {
-        [self.delegate pictureCellClickDeleteView:self];
-    }
+    [self.delegate morePicturesCellClickDeleteView:self];
 }
 
 #pragma mark - Setters
@@ -58,14 +55,6 @@
 - (void)setCellImage:(UIImage *)cellImage {
     _cellImage = cellImage;
     self.imageView.image = cellImage;
-}
-
-- (void)setCellImageURL:(NSURL *)cellImageURL {
-    _cellImageURL = cellImageURL;
-    
-    [self.imageView sd_setImageWithURL:cellImageURL placeholderImage:self.placeholderImage completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        _cellImage = image;
-    }];
 }
 
 - (void)setHiddenDeleteView:(BOOL)hiddenDeleteView {
