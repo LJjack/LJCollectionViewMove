@@ -1,16 +1,16 @@
 //
-//  LJPictureView.m
+//  LJMorePicturesView.m
 //  LJCollectionViewMove
 //
 //  Created by 刘俊杰 on 16/9/7.
 //  Copyright © 2016年 不囧. All rights reserved.
 //
 
-#import "LJPictureView.h"
+#import "LJMorePicturesView.h"
 #import "LJPictureCell.h"
 //#import "LJCollectionViewMovedFlowLayout.h"
 
-@interface LJPictureView ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LJPictureCellDelegate>
+@interface LJMorePicturesView ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LJPictureCellDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation LJPictureView
+@implementation LJMorePicturesView
 
 - (instancetype)init {
     if (self = [super init]) {

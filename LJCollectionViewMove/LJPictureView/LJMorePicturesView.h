@@ -1,5 +1,5 @@
 //
-//  LJPictureView.h
+//  LJMorePicturesView.h
 //  LJCollectionViewMove
 //
 //  Created by 刘俊杰 on 16/9/7.
@@ -8,25 +8,25 @@
 
 #import <UIKit/UIKit.h>
 
-@class LJPictureView;
+@class LJMorePicturesView;
 
-typedef void(^LJPictureViewBlock)(CGRect frame);
+typedef void(^LJMorePicturesViewBlock)(CGRect frame);
 
-@protocol LJPictureViewDelegate <NSObject>
+@protocol LJMorePicturesViewDelegate <NSObject>
 
 @optional
 //<! 选中 Add
-- (void)pictureViewDidSelectAddCell:(LJPictureView *)pictureView;
+- (void)pictureViewDidSelectAddCell:(LJMorePicturesView *)pictureView;
 //<! 选中 indexPath
-- (void)pictureView:(LJPictureView *)pictureView collectionView:(UICollectionView *)collectionView didSelectIndexPath:(NSIndexPath *)indexPath;
+- (void)pictureView:(LJMorePicturesView *)pictureView collectionView:(UICollectionView *)collectionView didSelectIndexPath:(NSIndexPath *)indexPath;
 //<! 删除 indexPath
-- (void)pictureView:(LJPictureView *)pictureView didDeleteIndexPath:(NSIndexPath *)indexPath;
+- (void)pictureView:(LJMorePicturesView *)pictureView didDeleteIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
-@interface LJPictureView : UIView
+@interface LJMorePicturesView : UIView
 
-// ====== LJPictureView 的配置 ======
+// ====== LJMorePicturesView 的配置 ======
 
 @property (nonatomic, assign) NSUInteger perLineNum; //<! 每行个数, 默认是 3
 
@@ -36,7 +36,7 @@ typedef void(^LJPictureViewBlock)(CGRect frame);
 
 @property (nonatomic, assign) CGFloat lineSpacing; //<! 行间距, 默认是 4
 
-@property (nonatomic, weak) id<LJPictureViewDelegate> delegate;
+@property (nonatomic, weak) id<LJMorePicturesViewDelegate> delegate;
 
 @property (nonatomic, assign) BOOL hiddenAddView; //<! 隐藏添加视图, 默认是 YES
 
@@ -50,7 +50,7 @@ typedef void(^LJPictureViewBlock)(CGRect frame);
 
 @property (nonatomic, strong) UIImage *placeholderImage; //<! 加载网络图片的占位图
 
-// ====== 以上是 LJPictureView 的配置 ======
+// ====== 以上是 LJMorePicturesView 的配置 ======
 
 /** 
  * 需要显示的数据  

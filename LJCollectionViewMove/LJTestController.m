@@ -7,16 +7,16 @@
 //
 
 #import "LJTestController.h"
-#import "LJPictureView.h"
+#import "LJMorePicturesView.h"
 
 #import "SDPhotoBrowser.h"//放大图片
 
-@interface LJTestController ()<LJPictureViewDelegate, SDPhotoBrowserDelegate>
+@interface LJTestController ()<LJMorePicturesViewDelegate, SDPhotoBrowserDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dataList;
 
-//@property (nonatomic, strong) LJPictureView *pictureView;
-@property (weak, nonatomic) IBOutlet LJPictureView *pictureView;
+//@property (nonatomic, strong) LJMorePicturesView *pictureView;
+@property (weak, nonatomic) IBOutlet LJMorePicturesView *pictureView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *pictureViewHeight;
 
 @end
@@ -49,15 +49,15 @@
     };
 }
 
-#pragma mark - LJPictureViewDelegate
+#pragma mark - LJMorePicturesViewDelegate
 
-- (void)pictureViewDidSelectAddCell:(LJPictureView *)pictureView {
+- (void)pictureViewDidSelectAddCell:(LJMorePicturesView *)pictureView {
     [self.dataList addObject:@"WechatIMG5"];
     //必须使用copy
     self.pictureView.pictureArray = self.dataList.copy;
 }
 
-- (void)pictureView:(LJPictureView *)pictureView collectionView:(UICollectionView *)collectionView didSelectIndexPath:(NSIndexPath *)indexPath {
+- (void)pictureView:(LJMorePicturesView *)pictureView collectionView:(UICollectionView *)collectionView didSelectIndexPath:(NSIndexPath *)indexPath {
     @autoreleasepool {
         SDPhotoBrowser *browser = [[SDPhotoBrowser alloc] init];
         browser.sourceImagesContainerView = collectionView;
@@ -68,7 +68,7 @@
     }
 }
 
-- (void)pictureView:(LJPictureView *)pictureView didDeleteIndexPath:(NSIndexPath *)indexPath {
+- (void)pictureView:(LJMorePicturesView *)pictureView didDeleteIndexPath:(NSIndexPath *)indexPath {
     [self.dataList removeObjectAtIndex:indexPath.row];
 }
 
@@ -83,9 +83,9 @@
 //}
 
 
-//- (LJPictureView *)pictureView {
+//- (LJMorePicturesView *)pictureView {
 //    if (!_pictureView) {
-//        _pictureView = [[LJPictureView alloc] init];
+//        _pictureView = [[LJMorePicturesView alloc] init];
 //        
 //        _pictureView.delegate = self;
 //    }
