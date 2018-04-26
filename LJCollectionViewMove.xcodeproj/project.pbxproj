@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		179679D9FB16B1EC0A4EFF1F /* libPods-LJCollectionViewMove.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEACE2B1506FF4E34D2CB6F6 /* libPods-LJCollectionViewMove.a */; };
+		837673552091705600EFA2EC /* LJSharePicturesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 837673542091705600EFA2EC /* LJSharePicturesController.m */; };
+		837673582091752500EFA2EC /* LJSharePictureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 837673572091752500EFA2EC /* LJSharePictureCell.m */; };
 		83A22D981D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D931D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m */; };
 		83A22D991D7FECC000FE1E4A /* LJMorePicturesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D951D7FECC000FE1E4A /* LJMorePicturesCell.m */; };
 		83A22D9A1D7FECC000FE1E4A /* LJMorePicturesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A22D971D7FECC000FE1E4A /* LJMorePicturesView.m */; };
@@ -23,6 +25,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		837673532091705600EFA2EC /* LJSharePicturesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJSharePicturesController.h; sourceTree = "<group>"; };
+		837673542091705600EFA2EC /* LJSharePicturesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJSharePicturesController.m; sourceTree = "<group>"; };
+		837673562091752500EFA2EC /* LJSharePictureCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LJSharePictureCell.h; sourceTree = "<group>"; };
+		837673572091752500EFA2EC /* LJSharePictureCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LJSharePictureCell.m; sourceTree = "<group>"; };
 		83A22D921D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJCollectionViewMovedFlowLayout.h; sourceTree = "<group>"; };
 		83A22D931D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJCollectionViewMovedFlowLayout.m; sourceTree = "<group>"; };
 		83A22D941D7FECC000FE1E4A /* LJMorePicturesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJMorePicturesCell.h; sourceTree = "<group>"; };
@@ -82,6 +88,10 @@
 				83A22D951D7FECC000FE1E4A /* LJMorePicturesCell.m */,
 				83A22D961D7FECC000FE1E4A /* LJMorePicturesView.h */,
 				83A22D971D7FECC000FE1E4A /* LJMorePicturesView.m */,
+				837673532091705600EFA2EC /* LJSharePicturesController.h */,
+				837673542091705600EFA2EC /* LJSharePicturesController.m */,
+				837673562091752500EFA2EC /* LJSharePictureCell.h */,
+				837673572091752500EFA2EC /* LJSharePictureCell.m */,
 			);
 			path = LJMorePicturesView;
 			sourceTree = "<group>";
@@ -182,12 +192,12 @@
 		83F7AAD21D7D7385005D007D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "不囧";
 				TargetAttributes = {
 					83F7AAD91D7D7385005D007D = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = N5VR4US535;
+						DevelopmentTeam = KJW4PHCGXU;
 						LastSwiftMigration = 0910;
 					};
 				};
@@ -281,6 +291,7 @@
 			files = (
 				83B4D5001D81548E00F970E1 /* SDPhotoBrowser.m in Sources */,
 				83BC12A71D7EAF4A0084F8AA /* LJTestController.m in Sources */,
+				837673582091752500EFA2EC /* LJSharePictureCell.m in Sources */,
 				83B4D5011D81548E00F970E1 /* SDWaitingView.m in Sources */,
 				83F7AAE21D7D7385005D007D /* AppDelegate.m in Sources */,
 				83A22D981D7FECC000FE1E4A /* LJCollectionViewMovedFlowLayout.m in Sources */,
@@ -288,6 +299,7 @@
 				83B4D4FF1D81548E00F970E1 /* SDBrowserImageView.m in Sources */,
 				83F7AADF1D7D7385005D007D /* main.m in Sources */,
 				83A22D991D7FECC000FE1E4A /* LJMorePicturesCell.m in Sources */,
+				837673552091705600EFA2EC /* LJSharePicturesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,12 +338,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -378,12 +392,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -417,7 +433,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = N5VR4US535;
+				DEVELOPMENT_TEAM = KJW4PHCGXU;
 				INFOPLIST_FILE = LJCollectionViewMove/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -435,7 +451,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = N5VR4US535;
+				DEVELOPMENT_TEAM = KJW4PHCGXU;
 				INFOPLIST_FILE = LJCollectionViewMove/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

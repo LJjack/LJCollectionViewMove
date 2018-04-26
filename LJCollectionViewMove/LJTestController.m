@@ -10,6 +10,7 @@
 #import "LJMorePicturesView.h"
 
 #import "SDPhotoBrowser.h"//放大图片
+#import "LJSharePicturesController.h"
 
 @interface LJTestController ()<LJMorePicturesViewDelegate, SDPhotoBrowserDelegate>
 
@@ -31,10 +32,22 @@
 //    
 //    [self.view addSubview:self.pictureView];
 //    self.pictureView.frame = frame;
-    [self setupPictureView];
+//    [self setupPictureView];
     
-    self.pictureView.pictureArray = self.dataList.copy;
+//    self.pictureView.pictureArray = self.dataList.copy;
     
+    
+}
+- (IBAction)clickPushBn:(UIButton *)sender {
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    CGFloat width = [UIScreen mainScreen].bounds.size.width / 3;
+    flowLayout.itemSize = CGSizeMake(width, width);
+    flowLayout.minimumLineSpacing = 0;
+    flowLayout.minimumInteritemSpacing = 0;
+    LJSharePicturesController * controller = [[LJSharePicturesController alloc] initWithCollectionViewLayout:flowLayout];
+    controller.pictureArray = self.dataList;
+    
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)setupPictureView {
