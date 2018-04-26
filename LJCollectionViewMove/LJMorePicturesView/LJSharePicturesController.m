@@ -34,7 +34,7 @@ static NSString * const reuseIdentifier = @"LJMorePicturesCell";
     self.mDict = [NSMutableDictionary dictionary];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightBtn];
-    
+    [self.rightBtn setTitle:[NSString stringWithFormat:@"完成0/%zd",self.dataList.count] forState:UIControlStateNormal];
 //    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPresGestureRecognizer:)];
 //    // 兼容系统手势
 //    for (UIGestureRecognizer *gestureRecognizer in self.collectionView.gestureRecognizers) {
@@ -66,6 +66,17 @@ static NSString * const reuseIdentifier = @"LJMorePicturesCell";
 //    }
 //}
 
+- (void)clickRigthBtn:(UIButton *)sender {
+    NSMutableArray *mList = [NSMutableArray array];
+    for (NSInteger index = 0; index < self.dataList.count; index ++) {
+        UIImage *image = self.mDict[@(index)];
+        if (image) {
+            [mList addObject:image];
+        }
+    }
+    
+}
+
 #pragma mark - LJCollectionViewMovedFlowLayoutDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -74,6 +85,7 @@ static NSString * const reuseIdentifier = @"LJMorePicturesCell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     LJSharePictureCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    cell.indexPath = indexPath;
     cell.delegate = self;
     id imageData= self.dataList[indexPath.row];
     //选择类型
@@ -107,6 +119,7 @@ static NSString * const reuseIdentifier = @"LJMorePicturesCell";
     } else {
         [self.mDict removeObjectForKey:@(indexPath.item)];
     }
+    [self.rightBtn setTitle:[NSString stringWithFormat:@"完成%zd/%zd",self.mDict.allKeys.count,self.dataList.count] forState:UIControlStateNormal];
 }
 
 - (UIButton *)rightBtn {
@@ -114,6 +127,9 @@ static NSString * const reuseIdentifier = @"LJMorePicturesCell";
         _rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_rightBtn setBackgroundImage:[UIImage imageNamed:@"yuajiaojvxing"] forState:UIControlStateNormal];
         _rightBtn.frame = CGRectMake(0, 0, 60, 30);
+        _rightBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_rightBtn addTarget:self action:@selector(clickRigthBtn:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _rightBtn;
 }
