@@ -39,6 +39,7 @@
     return self;
 }
 
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGFloat width = [self cellWidth];
@@ -121,7 +122,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    LJMorePicturesCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ViewController_cell" forIndexPath:indexPath];
+    LJMorePicturesCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"LJMorePicturesCell" forIndexPath:indexPath];
     
     if ([self isAddViewLastCellIndexPath:indexPath]) {
         cell.cellImage = self.dataList[indexPath.section * indexPath.row + indexPath.row];
@@ -153,15 +154,19 @@
     return YES;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(nonnull NSIndexPath *)sourceIndexPath toIndexPath:(nonnull NSIndexPath *)destinationIndexPath {
-    // 取出源item数据
-    id tempData = self.dataList[sourceIndexPath.item];
-    //从资源数组中移除该数据
-    [self.dataList removeObjectAtIndex:sourceIndexPath.item];
-    //将数据插入到资源数组中的目标位置上
-    [self.dataList insertObject:tempData atIndex:destinationIndexPath.item];
-
+- (void)collectionView:(UICollectionView *)collectionView willMoveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    
 }
+
+- (void)collectionView:(UICollectionView *)collectionView didMoveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath { 
+    // 取出源item数据
+    id tempData = self.dataList[fromIndexPath.item];
+    //从资源数组中移除该数据
+    [self.dataList removeObjectAtIndex:fromIndexPath.item];
+    //将数据插入到资源数组中的目标位置上
+    [self.dataList insertObject:tempData atIndex:toIndexPath.item];
+}
+
 
 #pragma mark - UICollectionViewDelegate
 
@@ -179,15 +184,7 @@
     
 }
 
-#pragma mark - LJMorePicturesCellDelegate
-#warning 需要处理
-- (void)morePicturesCellClickDeleteView:(LJMorePicturesCell *)pictureCell {
-    
-    NSIndexPath *indexPath = [self.collectionView indexPathForCell:pictureCell];
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(pictureView:didDeleteIndexPath:)]) {
-        [self.delegate pictureView:self didDeleteIndexPath:indexPath];
-    }
+- (void)collectionView:(UICollectionView *)collectionView didDeleteWithIndexPath:(NSIndexPath *)indexPath {
     
     [self.dataList removeObjectAtIndex:indexPath.row];
     @autoreleasepool {
@@ -199,6 +196,11 @@
             self.pictureArray = tempMArray.copy;
         }
     }
+    
+    if ([self.delegate respondsToSelector:@selector(pictureView:didDeleteIndexPath:)]) {
+        [self.delegate pictureView:self didDeleteIndexPath:indexPath];
+    }
+    
 }
 
 #pragma mark - Setters
@@ -232,7 +234,7 @@
         _collectionView.delegate = self;
         
         _collectionView.backgroundColor = [UIColor colorWithRed:0.8568 green:0.8568 blue:0.8568 alpha:1.0];
-        [_collectionView registerClass:[LJMorePicturesCell class] forCellWithReuseIdentifier:@"ViewController_cell"];
+        [_collectionView registerClass:[LJMorePicturesCell class] forCellWithReuseIdentifier:@"LJMorePicturesCell"];
         UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPresGestureRecognizer:)];
         // 兼容系统手势
         for (UIGestureRecognizer *gestureRecognizer in _collectionView.gestureRecognizers) {

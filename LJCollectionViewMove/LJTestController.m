@@ -86,7 +86,7 @@
 }
 
 - (void)pictureView:(LJMorePicturesView *)pictureView didDeleteIndexPath:(NSIndexPath *)indexPath {
-    [self.dataList removeObjectAtIndex:indexPath.row];
+//    [self.dataList removeObjectAtIndex:indexPath.row];
 }
 
 - (void)morePicturesController:(LJSharePicturesController *)controller imageList:(NSArray<UIImage *> *)imageList {

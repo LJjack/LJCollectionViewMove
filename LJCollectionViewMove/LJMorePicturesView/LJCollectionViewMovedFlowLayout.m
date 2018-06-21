@@ -91,6 +91,8 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
 
 @property (weak  , nonatomic) id<LJCollectionViewMovedFlowLayoutDataSource> lj_dataSource;
 
+@property (assign, nonatomic) BOOL onDelete;
+
 @end
 
 @implementation UICollectionView (LJReordering)
@@ -112,7 +114,7 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
 - (void)lj_updateInteractiveMovementTargetPosition:(CGPoint)targetPosition {
     self.moveView.center = targetPosition;
     CGSize cellMovedSize = LJ_CGSizeScale(self.moveView.bounds.size, 0.3);
-    
+    [self handelViewMove:self.moveView.frame];
     [self updateLayoutMovementTargetPosition:targetPosition];
     switch ([self lj_collectionViewLayout].scrollDirection) {
         case UICollectionViewScrollDirectionVertical: {
@@ -136,9 +138,21 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
     if (self.selectedItemIndexPath) {
         [self.moveView removeFromSuperview];
         self.moveView = nil;
+        
+        [self.deleteView removeFromSuperview];
+        self.deleteView = nil;
+        self.deleteLabel = nil;
+        
+        if (self.onDelete) {
+            self.onDelete = NO;
+            if ([[self lj_dataSource] respondsToSelector:@selector(collectionView:didDeleteWithIndexPath:)]) {
+                [[self lj_dataSource] collectionView:self didDeleteWithIndexPath:self.selectedItemIndexPath];
+            }
+        }
         self.selectedItemIndexPath = nil;
         [self.collectionViewLayout invalidateLayout];
     }
+    
 }
 - (void)lj_cancelInteractiveMovement {
     [self lj_endInteractiveMovement];
@@ -225,35 +239,33 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
     }
     self.moveView.center = LJ_CGPointAdd(self.moveView.center, translation);
     self.contentOffset = LJ_CGPointAdd(contentOffset, translation);
-}
-
-- (void)injected
-{
-    [self.deleteView removeFromSuperview];
-    [self setupUI];
     
 }
 
-- (void)setupUI {
-    CGSize size = [UIScreen mainScreen].bounds.size;
-    CGRect deleteFrame = CGRectMake(0, size.height - 60, size.width, 60);
-    UIView *deleteView = [[UIView alloc] initWithFrame:deleteFrame];
-    deleteView.hidden = YES;
-    deleteView.backgroundColor = [UIColor colorWithRed:250 green:52 blue:70 alpha:0.8];
-    [self.window addSubview:deleteView];
+- (void)handelViewMove:(CGRect)frame {
     
-    UIImageView *deleImgView = [[UIImageView alloc] initWithFrame:CGRectMake((size.width - 30) * 0.5, 10, 30, 30)];
-    deleImgView.image = [UIImage imageNamed:@"move_bottom_delete"];
-    [deleImgView addSubview:deleImgView];
+    CGPoint point = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
+    self.onDelete = NO;
+    if (!CGRectContainsPoint(self.frame, point)) {
+        if (self.deleteView.hidden) {
+            self.deleteLabel.text = @"推动到此处删除";
+        }
+        self.deleteView.hidden = NO;
+        CGSize size = [UIScreen mainScreen].bounds.size;
+        CGRect deleteFrame = CGRectMake(0, size.height - 60, size.width, 60);
+        if (CGRectIntersectsRect(deleteFrame, frame)) {
+            self.deleteLabel.text = @"松手即可删除";
+            self.onDelete = YES;
+        } else {
+            self.deleteLabel.text = @"推动到此处删除";
+            self.onDelete = NO;
+        }
+    } else {
+        self.deleteView.hidden = YES;
+    }
     
-    UILabel *deleteLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10 + 30 + 5, size.width, 20)];
-    deleteLabel.textAlignment = NSTextAlignmentCenter;
-    deleteLabel.text = @"推动到此处删除";
-    [deleteView addSubview:deleteLabel];
-    self.deleteLabel = deleteLabel;
-    self.deleteView = deleImgView;
+    
 }
-
 
 - (void)setupUIWithCell:(UICollectionViewCell *)cell {
     
@@ -263,7 +275,26 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
     //    [self addSubview:self.moveView];
     [self.window addSubview:self.moveView];
     
-    [self setupUI];
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    CGRect deleteFrame = CGRectMake(0, size.height - 60, size.width, 60);
+    UIView *deleteView = [[UIView alloc] initWithFrame:deleteFrame];
+    deleteView.hidden = YES;
+    deleteView.backgroundColor = [UIColor colorWithRed:0.8 green:0 blue:0 alpha:0.7];
+    
+    UIImageView *deleImgView = [[UIImageView alloc] initWithFrame:CGRectMake((size.width - 24) * 0.5, 10, 24, 24)];
+    deleImgView.image = [UIImage imageNamed:@"move_bottom_delete"];
+    [deleteView addSubview:deleImgView];
+    
+    UILabel *deleteLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10 + 24 + 2, size.width, 20)];
+    deleteLabel.textColor = [UIColor whiteColor];
+    deleteLabel.font = [UIFont systemFontOfSize:12];
+    deleteLabel.textAlignment = NSTextAlignmentCenter;
+    deleteLabel.text = @"推动到此处删除";
+    [deleteView addSubview:deleteLabel];
+    self.deleteLabel = deleteLabel;
+    [self.window addSubview:deleteView];
+    
+    self.deleteView = deleteView;
 }
 
 #pragma mark - Getters And Setters
@@ -286,6 +317,23 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
 
 - (UIView *)deleteView {
     return objc_getAssociatedObject(self, "LJReordering_deleteView");
+}
+
+- (void)setDeleteLabel:(UILabel *)deleteLabel {
+    objc_setAssociatedObject(self, "LJReordering_deleteLabel", deleteLabel, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (UILabel *)deleteLabel {
+    return objc_getAssociatedObject(self, "LJReordering_deleteLabel");
+}
+
+- (void)setOnDelete:(BOOL)onDelete {
+    objc_setAssociatedObject(self, "LJReordering_onDelete", @(onDelete), OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (BOOL)onDelete {
+    NSNumber *number = (NSNumber *)objc_getAssociatedObject(self, "LJReordering_onDelete");
+    return [number boolValue];
 }
 
 - (void)setSelectedItemIndexPath:(NSIndexPath *)selectedItemIndexPath {
