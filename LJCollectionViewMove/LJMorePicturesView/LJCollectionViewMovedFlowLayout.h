@@ -10,7 +10,7 @@
 
 @protocol LJCollectionViewMovedFlowLayoutDataSource <UICollectionViewDataSource>
 
-@optional
+@required
 
 - (void)collectionView:(UICollectionView *)collectionView willMoveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath;
 
@@ -19,6 +19,11 @@
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath;
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath;
+
+
+@optional
+
+- (void)collectionView:(UICollectionView *)collectionView didDeleteWithIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -35,3 +40,5 @@
 - (void)lj_cancelInteractiveMovement;
 
 @end
+
+

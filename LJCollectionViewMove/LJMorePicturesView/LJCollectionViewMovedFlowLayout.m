@@ -81,7 +81,11 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
 
 @interface UICollectionView ()
 
-@property (strong, nonatomic) UIView *currentView;
+@property (strong, nonatomic) UIView *moveView;
+
+@property (strong, nonatomic) UIView *deleteView;
+
+@property (strong, nonatomic) UILabel *deleteLabel;
 
 @property (strong, nonatomic) NSIndexPath *selectedItemIndexPath;
 
@@ -100,17 +104,14 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
     
     UICollectionViewCell *collectionViewCell = [self cellForItemAtIndexPath:indexPath];
     
-    self.currentView = [collectionViewCell snapshotViewAfterScreenUpdates:NO];
-    self.currentView.frame = collectionViewCell.frame;
-    self.currentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self addSubview:self.currentView];
-
+    [self setupUIWithCell:collectionViewCell];
+    
     [self.collectionViewLayout invalidateLayout];
     return YES;
 }
 - (void)lj_updateInteractiveMovementTargetPosition:(CGPoint)targetPosition {
-    self.currentView.center = targetPosition;
-    CGSize cellMovedSize = LJ_CGSizeScale(self.currentView.bounds.size, 0.3);
+    self.moveView.center = targetPosition;
+    CGSize cellMovedSize = LJ_CGSizeScale(self.moveView.bounds.size, 0.3);
     
     [self updateLayoutMovementTargetPosition:targetPosition];
     switch ([self lj_collectionViewLayout].scrollDirection) {
@@ -133,8 +134,8 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
 }
 - (void)lj_endInteractiveMovement {
     if (self.selectedItemIndexPath) {
-        [self.currentView removeFromSuperview];
-        self.currentView = nil;
+        [self.moveView removeFromSuperview];
+        self.moveView = nil;
         self.selectedItemIndexPath = nil;
         [self.collectionViewLayout invalidateLayout];
     }
@@ -151,6 +152,7 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
     if (!newIndexPath || !previousIndexPath || newIndexPath == previousIndexPath) {
         return;
     }
+    
     if ([[self lj_dataSource] respondsToSelector:@selector(collectionView:canMoveItemAtIndexPath:toIndexPath:)] &&
         ![[self lj_dataSource] collectionView:self canMoveItemAtIndexPath:previousIndexPath toIndexPath:newIndexPath]) {
         return;
@@ -179,6 +181,8 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
         if ([[strongSelf lj_dataSource] respondsToSelector:@selector(collectionView:didMoveItemAtIndexPath:toIndexPath:)]) {
             [[strongSelf lj_dataSource] collectionView:strongSelf didMoveItemAtIndexPath:previousIndexPath toIndexPath:newIndexPath];
         }
+        
+        
     }];
 }
 
@@ -219,8 +223,47 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
         } break;
         case LJScrollingDirectionUnknown: break;
     }
-    self.currentView.center = LJ_CGPointAdd(self.currentView.center, translation);
+    self.moveView.center = LJ_CGPointAdd(self.moveView.center, translation);
     self.contentOffset = LJ_CGPointAdd(contentOffset, translation);
+}
+
+- (void)injected
+{
+    [self.deleteView removeFromSuperview];
+    [self setupUI];
+    
+}
+
+- (void)setupUI {
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    CGRect deleteFrame = CGRectMake(0, size.height - 60, size.width, 60);
+    UIView *deleteView = [[UIView alloc] initWithFrame:deleteFrame];
+    deleteView.hidden = YES;
+    deleteView.backgroundColor = [UIColor colorWithRed:250 green:52 blue:70 alpha:0.8];
+    [self.window addSubview:deleteView];
+    
+    UIImageView *deleImgView = [[UIImageView alloc] initWithFrame:CGRectMake((size.width - 30) * 0.5, 10, 30, 30)];
+    deleImgView.image = [UIImage imageNamed:@"move_bottom_delete"];
+    [deleImgView addSubview:deleImgView];
+    
+    UILabel *deleteLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10 + 30 + 5, size.width, 20)];
+    deleteLabel.textAlignment = NSTextAlignmentCenter;
+    deleteLabel.text = @"推动到此处删除";
+    [deleteView addSubview:deleteLabel];
+    self.deleteLabel = deleteLabel;
+    self.deleteView = deleImgView;
+}
+
+
+- (void)setupUIWithCell:(UICollectionViewCell *)cell {
+    
+    self.moveView = [cell snapshotViewAfterScreenUpdates:NO];
+    self.moveView.frame = cell.frame;
+    self.moveView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    //    [self addSubview:self.moveView];
+    [self.window addSubview:self.moveView];
+    
+    [self setupUI];
 }
 
 #pragma mark - Getters And Setters
@@ -229,16 +272,23 @@ typedef NS_ENUM(NSUInteger, LJScrollingDirection) {
     return (id<LJCollectionViewMovedFlowLayoutDataSource>)self.dataSource;
 }
 
-- (void)setCurrentView:(UIView *)currentView {
-    objc_setAssociatedObject(self, "LJReordering_currentView", currentView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setMoveView:(UIView *)moveView {
+    objc_setAssociatedObject(self, "LJReordering_moveView", moveView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (UIView *)currentView {
-    return objc_getAssociatedObject(self, "LJReordering_currentView");
+- (UIView *)moveView {
+    return objc_getAssociatedObject(self, "LJReordering_moveView");
+}
+
+- (void)setDeleteView:(UIView *)deleteView {
+    objc_setAssociatedObject(self, "LJReordering_deleteView", deleteView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (UIView *)deleteView {
+    return objc_getAssociatedObject(self, "LJReordering_deleteView");
 }
 
 - (void)setSelectedItemIndexPath:(NSIndexPath *)selectedItemIndexPath {
-    
    [self lj_collectionViewLayout].selectedItemIndexPath = selectedItemIndexPath;
 
     objc_setAssociatedObject(self, "LJReordering_selectedItemIndexPath", selectedItemIndexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);

@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet LJMorePicturesView *pictureView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *pictureViewHeight;
 
+@property (strong, nonatomic) LJSharePicturesController * shareController;
+
 @end
 
 @implementation LJTestController
@@ -32,22 +34,24 @@
 //    
 //    [self.view addSubview:self.pictureView];
 //    self.pictureView.frame = frame;
-//    [self setupPictureView];
+    [self setupPictureView];
     
-//    self.pictureView.pictureArray = self.dataList.copy;
+    self.pictureView.pictureArray = self.dataList.copy;
     
+//    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+//    CGFloat width = [UIScreen mainScreen].bounds.size.width / 3;
+//    flowLayout.itemSize = CGSizeMake(width, width);
+//    flowLayout.minimumLineSpacing = 0;
+//    flowLayout.minimumInteritemSpacing = 0;
+//    self.shareController = [[LJSharePicturesController alloc] initWithCollectionViewLayout:flowLayout];
+//    self.shareController.pictureArray = self.dataList;
+//    self.shareController.delegate = self;
     
 }
 - (IBAction)clickPushBn:(UIButton *)sender {
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    CGFloat width = [UIScreen mainScreen].bounds.size.width / 3;
-    flowLayout.itemSize = CGSizeMake(width, width);
-    flowLayout.minimumLineSpacing = 0;
-    flowLayout.minimumInteritemSpacing = 0;
-    LJSharePicturesController * controller = [[LJSharePicturesController alloc] initWithCollectionViewLayout:flowLayout];
-    controller.pictureArray = self.dataList;
+   
+    [self.navigationController pushViewController:self.shareController animated:YES];
     
-    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)setupPictureView {
@@ -83,6 +87,10 @@
 
 - (void)pictureView:(LJMorePicturesView *)pictureView didDeleteIndexPath:(NSIndexPath *)indexPath {
     [self.dataList removeObjectAtIndex:indexPath.row];
+}
+
+- (void)morePicturesController:(LJSharePicturesController *)controller imageList:(NSArray<UIImage *> *)imageList {
+    self.pictureView.pictureArray = self.dataList.copy;
 }
 
 #pragma mark - SDPhotoBrowserDelegate

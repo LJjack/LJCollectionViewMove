@@ -8,15 +8,15 @@
 
 #import "LJMorePicturesView.h"
 #import "LJMorePicturesCell.h"
-//#import "LJCollectionViewMovedFlowLayout.h"
+#import "LJCollectionViewMovedFlowLayout.h"
 
-@interface LJMorePicturesView ()<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LJMorePicturesCellDelegate>
+@interface LJMorePicturesView ()< UICollectionViewDelegateFlowLayout,LJCollectionViewMovedFlowLayoutDataSource>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
 @property (nonatomic, strong) NSMutableArray *dataList;
 
-@property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
+@property (nonatomic, strong) LJCollectionViewMovedFlowLayout *flowLayout;
 
 @end
 
@@ -60,6 +60,7 @@
     self.hiddenAddView = YES;
     self.onlyAddViewShow = NO;
     self.hiddenDeleteView = YES;
+    self.clipsToBounds = NO;
 }
 
 - (void)setupUI {
@@ -99,16 +100,16 @@
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan: {
             NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:[gesture locationInView:gesture.view]];
-            [self.collectionView beginInteractiveMovementForItemAtIndexPath:indexPath];
+            [self.collectionView lj_beginInteractiveMovementForItemAtIndexPath:indexPath];
         } break;
         case UIGestureRecognizerStateChanged: {
-            [self.collectionView updateInteractiveMovementTargetPosition:[gesture locationInView:gesture.view]];
+            [self.collectionView lj_updateInteractiveMovementTargetPosition:[gesture locationInView:gesture.view]];
         } break;
         case UIGestureRecognizerStateEnded: {
-            [self.collectionView endInteractiveMovement];
-            
+            [self.collectionView lj_endInteractiveMovement];
         } break;
-        default: [self.collectionView cancelInteractiveMovement];
+        default:
+            [self.collectionView lj_cancelInteractiveMovement];
             break;
     }
 }
@@ -124,7 +125,6 @@
     
     if ([self isAddViewLastCellIndexPath:indexPath]) {
         cell.cellImage = self.dataList[indexPath.section * indexPath.row + indexPath.row];
-        cell.hiddenDeleteView = YES;
     } else {
         id imageData= self.dataList[indexPath.section * indexPath.row + indexPath.row];
         //选择类型
@@ -132,14 +132,6 @@
             cell.cellImageName = imageData;
         } else if ([imageData isKindOfClass:[UIImage class]]) {
             cell.cellImage = imageData;
-        }
-        //删除视图
-        cell.hiddenDeleteView = self.hiddenDeleteView;
-        if (!self.hiddenDeleteView) {
-            cell.delegate = self;
-            if (self.deleteViewImage) {
-                cell.deleteImage = self.deleteViewImage;
-            }
         }
     }
     
@@ -149,6 +141,13 @@
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     
     if ([self isAddViewLastCellIndexPath:indexPath]) {
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    if ([self isAddViewLastCellIndexPath:toIndexPath]) {
         return NO;
     }
     return YES;
@@ -166,7 +165,6 @@
 
 #pragma mark - UICollectionViewDelegate
 
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([self isAddViewLastCellIndexPath:indexPath]) {
         if ([self.delegate respondsToSelector:@selector(pictureViewDidSelectAddCell:)]) {
@@ -182,7 +180,7 @@
 }
 
 #pragma mark - LJMorePicturesCellDelegate
-
+#warning 需要处理
 - (void)morePicturesCellClickDeleteView:(LJMorePicturesCell *)pictureCell {
     
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:pictureCell];
@@ -247,9 +245,9 @@
     return _collectionView;
 }
 
-- (UICollectionViewFlowLayout *)flowLayout {
+- (LJCollectionViewMovedFlowLayout *)flowLayout {
     if (!_flowLayout) {
-        _flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        _flowLayout = [[LJCollectionViewMovedFlowLayout alloc] init];
     }
     return _flowLayout;
 }
